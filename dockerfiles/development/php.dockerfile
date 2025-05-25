@@ -1,23 +1,28 @@
-ARG PHP_VERSION
-ENV PHP_VERSION=${PHP_VERSION:-"php:8.4-fpm-alpine"}
+ARG PHP_VERSION=php:8.4-fpm-alpine
 
-FROM PHP_VERSION
+FROM ${PHP_VERSION}
 
-ARG UID
-ARG GID
 ARG COMPOSER_VERSION
 ARG PHP_EXTENSIONS
+ARG UID
+ARG GID
 
+ENV COMPOSER_VERSION=${COMPOSER_VERSION}
+ENV PHP_EXTENSIONS=${PHP_EXTENSIONS}
 ENV UID=${UID}
 ENV GID=${GID}
-ENV COMPOSER_VERSION=${COMPOSER_VERSION:-"composer:latest"}
-ENV PHP_EXTENSIONS=${PHP_EXTENSIONS:-"pdo pdo_mysql"}
+
+RUN echo "PHP_VERSION is set to: ${PHP_VERSION}"
+RUN echo "COMPOSER_VERSION is set to: ${COMPOSER_VERSION}"
+RUN echo "UID is set to: ${UID}"
+RUN echo "GID is set to: ${GID}"
+RUN echo "PHP_EXTENSIONS is set to: ${PHP_EXTENSIONS}"
 
 RUN mkdir -p /var/www/html
 
 WORKDIR /var/www/html
 
-COPY --from=${COMPOSER_VERSION} /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # MacOS staff group's gid is 20, so is the dialout group in alpine linux. We're not using it, let's just remove it.
 RUN delgroup dialout
@@ -29,13 +34,17 @@ RUN sed -i "s/user = www-data/user = laravel/g" /usr/local/etc/php-fpm.d/www.con
 RUN sed -i "s/group = www-data/group = laravel/g" /usr/local/etc/php-fpm.d/www.conf
 RUN echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
 
+RUN set -ex \
+  && apk --no-cache add \
+    postgresql-dev
+
 RUN docker-php-ext-install ${PHP_EXTENSIONS}
 
 RUN mkdir -p /usr/src/php/ext/redis \
     && curl -L https://github.com/phpredis/phpredis/archive/5.3.4.tar.gz | tar xvz -C /usr/src/php/ext/redis --strip 1 \
     && echo 'redis' >> /usr/src/php-available-exts \
     && docker-php-ext-install redis
-    
+
 USER laravel
 
 CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]
