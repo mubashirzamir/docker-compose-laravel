@@ -1,4 +1,7 @@
-FROM nginx:stable-alpine
+ARG NGINX_VERSION
+ENV NGINX_VERSION=${NGINX_VERSION:-"nginx:stable-alpine"}
+
+FROM ${NGINX_VERSION}
 
 ARG UID
 ARG GID

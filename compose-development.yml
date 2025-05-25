@@ -1,8 +1,7 @@
 version: '3'
 
 networks:
-  laravel:
-
+  ${COMPOSE_NETWORKS_NAME:-laravel}:
 
 services:
   app:
@@ -10,6 +9,7 @@ services:
       context: ./dockerfiles/development
       dockerfile: nginx.dockerfile
       args:
+        - NGINX_VERSION=${COMPOSE_NGINX_VERSION:-nginx:latest}
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     ports:
@@ -19,32 +19,34 @@ services:
     depends_on:
       - php
       - redis
-      - mysql
+      - postgres
       - mailhog
     networks:
-      - laravel
+      - ${COMPOSE_NETWORKS_NAME:laravel}
 
-  mysql:
-    image: mariadb:10.6
+  postgres:
+    image: ${COMPOSE_POSTGRES_VERSION:-postgres:latest}
     restart: unless-stopped
     tty: true
     ports:
-      - "3306:3306"
+      - "${POSTGRES_PORT:-5432}:5432"
     environment:
-      MYSQL_DATABASE: homestead
-      MYSQL_USER: homestead
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: secret
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
+      - POSTGRES_DB=app
+      - POSTGRES_USER=laravel
+      - POSTGRES_PASSWORD=secret
+    volumes:
+      - postgres-data-development:/var/lib/postgresql/data
     networks:
-      - laravel
+      - ${COMPOSE_NETWORKS_NAME:-laravel}
 
   php:
     build:
       context: ./dockerfiles/development
       dockerfile: php.dockerfile
       args:
+        - PHP_VERSION=${COMPOSE_PHP_VERSION:-php-8.4-fpm-alpine}
+        - COMPOSER_VERSION=${COMPOSE_COMPOSER_VERSION:-composer:latest}
+        - PHP_EXTENSIONS=${COMPOSE_PHP_PACKAGES:-"pdo pdo_mysql pdo_pgsql bcmath exif gd intl mbstring opcache pcntl redis tokenizer xml zip"}
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     ports:
@@ -52,15 +54,15 @@ services:
     volumes:
       - ./src:/var/www/html:delegated
     networks:
-      - laravel
+      - ${COMPOSE_NETWORKS_NAME:-laravel}
 
   redis:
-    image: redis:alpine
+    image: redis:${COMPOSE_REDIS_VERSION:-redis:latest-alpine}
     restart: unless-stopped
     ports:
       - "6379:6379"
     networks:
-      - laravel
+      - ${COMPOSE_NETWORKS_NAME:-laravel}
 
   composer:
     build:
@@ -75,10 +77,10 @@ services:
       - php
     entrypoint: [ 'composer', '--ignore-platform-reqs' ]
     networks:
-      - laravel
+      - ${COMPOSE_NETWORKS_NAME:-laravel}
 
   npm:
-    image: node:current-alpine
+    image: ${COMPOSE_NODE_VERSION:-node:22-alpine}
     volumes:
       - ./src:/var/www/html
     ports:
@@ -88,7 +90,7 @@ services:
     working_dir: /var/www/html
     entrypoint: [ 'npm' ]
     networks:
-      - laravel
+      - ${COMPOSE_NETWORKS_NAME:-laravel}
 
   artisan:
     build:
@@ -103,12 +105,12 @@ services:
       - mysql
     entrypoint: [ 'php', '/var/www/html/artisan' ]
     networks:
-      - laravel
+      - ${COMPOSE_NETWORKS_NAME:-laravel}
 
   mailhog:
-    image: mailhog/mailhog:latest
+    image: mailhog/${COMPOSE_MAILHOG_VERSION:-mailhog/mailhog:latest}
     ports:
       - "1025:1025"
       - "8025:8025"
     networks:
-      - laravel
+      - ${COMPOSE_NETWORKS_NAME:-laravel}
