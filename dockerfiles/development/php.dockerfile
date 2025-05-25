@@ -2,7 +2,7 @@ ARG PHP_VERSION=php:8.3-fpm-alpine
 
 FROM ${PHP_VERSION}
 
-ARG COMPOSER_VERSION
+ARG COMPOSER_VERSION="composer:2.6"
 ARG PHP_EXTENSIONS="pdo pdo_pgsql"
 ARG UID
 ARG GID
@@ -12,16 +12,11 @@ ENV PHP_EXTENSIONS=${PHP_EXTENSIONS}
 ENV UID=${UID}
 ENV GID=${GID}
 
-RUN echo "PHP_VERSION is set to: ${PHP_VERSION}"
-RUN echo "COMPOSER_VERSION is set to: ${COMPOSER_VERSION}"
-RUN echo "UID is set to: ${UID}"
-RUN echo "GID is set to: ${GID}"
-RUN echo "PHP_EXTENSIONS is set to: ${PHP_EXTENSIONS}"
-
 RUN mkdir -p /var/www/html
 
 WORKDIR /var/www/html
 
+# TODO: Need to figure out how to make composer installation dynamic
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # MacOS staff group's gid is 20, so is the dialout group in alpine linux. We're not using it, let's just remove it.
