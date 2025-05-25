@@ -43,7 +43,7 @@ services:
       context: ./dockerfiles/development
       dockerfile: php.dockerfile
       args:
-        - PHP_VERSION=${COMPOSE_PHP_VERSION:-php-8.4-fpm-alpine}
+        - PHP_VERSION=${COMPOSE_PHP_VERSION:-php-8.3-fpm-alpine}
         - PHP_EXTENSIONS=${COMPOSE_PHP_EXTENSIONS:-pdo pdo_pgsql}
         - COMPOSER_VERSION=${COMPOSE_COMPOSER_VERSION:-composer:latest}
         - UID=${UID:-1000}
