@@ -7,6 +7,7 @@ This project is based on the [docker-compose-laravel](https://github.com/aschmel
 - Resolve issues with Vite and hot module reloading
 - Explore installation via Laravel installer instead of Composer
 - Add React support
+- Require the env file for the docker-compose command
 
 # docker-compose-laravel
 Docker compose workflow for Laravel development using the following services:
@@ -40,7 +41,13 @@ COMPOSE_NETWORKS_NAME=app_network
 
 NOTE: that the `COMPOSE_COMPOSER_VERSION` does not currently work.
 
-Next, navigate in your terminal to the directory you cloned this, and spin up the containers for the web server by running `docker-compose -f compose-development.yml --env-file .env.development up -d`.
+Next, navigate in your terminal to the directory you cloned this, and spin up the containers for the web server by running:
+
+- `docker-compose -f compose-development.yml --env-file .env-development up -d`
+
+Alternatively you can use the provided convenience script:
+
+- `./dev.sh`
 
 After that completes, follow the steps from the [src/README.md](src/README.md) file to get your Laravel project added in (or create a new blank one).
 
