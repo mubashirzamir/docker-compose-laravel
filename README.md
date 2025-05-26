@@ -1,5 +1,12 @@
-# Original Repository
-Based on the following repo: https://github.com/aschmelyun/docker-compose-laravel
+# Acknowledgements
+This project is based on the [docker-compose-laravel](https://github.com/aschmelyun/docker-compose-laravel) repository by aschmelyun, with improvements and customizations for my personal development workflow.
+
+# TODOS
+
+- Fix `COMPOSE_COMPOSER_VERSION` behavior
+- Resolve issues with Vite and hot module reloading
+- Explore installation via Laravel installer instead of Composer
+- Add React support
 
 # docker-compose-laravel
 Docker compose workflow for Laravel development using the following services:
@@ -50,6 +57,28 @@ Three additional containers are included that handle Composer, NPM, and Artisan 
 - `docker-compose -f ../compose-development.yml run --rm composer update`
 - `docker-compose -f ../compose-development.yml run --rm npm run dev`
 - `docker-compose -f ../compose-development.yml run --rm artisan migrate`
+
+And for persistent containers:
+
+- `docker-compose -f ../compose-development.yml exec nginx sh`
+- `docker-compose -f ../compose-development.yml exec php sh`
+- `docker-compose -f ../compose-development.yml exec postgres sh`
+- `docker-compose -f ../compose-development.yml exec redis sh`
+- `docker-compose -f ../compose-development.yml exec mailhog sh`
+
+Alternatively you can use the following QOL commands:
+
+- `dev-run composer update`
+- `dev-run npm run dev`
+- `dev-run artisan migrate`
+
+And for persistent containers:
+
+- `dev-exec nginx sh`
+- `dev-exec php sh`
+- `dev-exec postgres sh`
+- `dev-exec redis sh`
+- `dev-exec mailhog sh`
 
 ## Permissions Issues
 
@@ -111,12 +140,3 @@ Want to build for production? Simply run `docker-compose run --rm npm run build`
 The current version of Laravel (9 as of today) uses MailHog as the default application for testing email sending and general SMTP work during local development. Using the provided Docker Hub image, getting an instance set up and ready is simple and straight-forward. The service is included in the `docker-compose.yml` file, and spins up alongside the webserver and database services.
 
 To see the dashboard and view any emails coming through the system, visit [localhost:8025](http://localhost:8025) after running `docker-compose up -d site`.
-
-
-# TODOS
-
-- Fix `COMPOSE_COMPOSER_VERSION` behavior
-- Alias commands for convenience
-- Resolve issues with Vite and hot module reloading
-- Explore installation via Laravel installer instead of Composer
-- Add React support

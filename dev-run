@@ -1,0 +1,17 @@
+#!/bin/bash
+
+COMPOSE_FILE="../compose-development.yml"
+
+# First argument is the service (e.g. composer, npm, artisan)
+SERVICE=$1
+
+# All remaining arguments are passed to the container command
+shift
+
+# Only allow specific services to be run: composer, npm, artisan
+if [[ ! "$SERVICE" =~ ^(composer|npm|artisan)$ ]]; then
+  echo "Error: Invalid service '$SERVICE'. Allowed services are: composer, npm, artisan."
+  exit 1
+fi
+
+docker-compose -f "$COMPOSE_FILE" run --rm "$SERVICE" "$@"

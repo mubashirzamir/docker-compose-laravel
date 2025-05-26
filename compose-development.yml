@@ -3,7 +3,7 @@ networks:
     driver: bridge
 
 services:
-  app:
+  nginx:
     build:
       context: ./dockerfiles/development
       dockerfile: nginx.dockerfile
@@ -56,7 +56,7 @@ services:
       - app_network
 
   redis:
-    image: ${COMPOSE_REDIS_VERSION:-redis:latest-alpine}
+    image: ${COMPOSE_REDIS_VERSION:-redis:8.0.1-alpine}
     restart: unless-stopped
     ports:
       - "6379:6379"
