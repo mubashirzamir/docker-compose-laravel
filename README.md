@@ -3,6 +3,7 @@ This project is based on the [docker-compose-laravel](https://github.com/aschmel
 
 # TODOS
 
+- Remove delegations from compose-development.
 - Add instruction to change permissions for exec files or make them executable by default.
 - Change all docker-compose commands to docker compose to reduce dependencies
 - Fix `COMPOSE_COMPOSER_VERSION` behavior
