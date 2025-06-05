@@ -43,7 +43,7 @@ NOTE: that the `COMPOSE_COMPOSER_VERSION` does not currently work.
 
 Next, navigate in your terminal to the directory you cloned this, and spin up the containers for the web server by running:
 
-- `docker-compose -f compose-development.yml --env-file .env-development up -d`
+- `docker-compose -f compose-development.yml --env-file .env.development up -d`
 
 Alternatively you can use the provided convenience script:
 
