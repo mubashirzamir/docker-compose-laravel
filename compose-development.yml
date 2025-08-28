@@ -14,7 +14,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./src:/var/www/html:delegated
+      - ./src:/var/www/html:cached
     depends_on:
       - php
       - redis
@@ -51,7 +51,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - ./src:/var/www/html:delegated
+      - ./src:/var/www/html:cached
     networks:
       - app_network
 
@@ -100,7 +100,7 @@ services:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     volumes:
-      - ./src:/var/www/html:delegated
+      - ./src:/var/www/html:cached
     depends_on:
       - postgres
       - php

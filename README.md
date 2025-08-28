@@ -3,15 +3,21 @@ This project is based on the [docker-compose-laravel](https://github.com/aschmel
 
 # TODOS
 
--[ ] Remove delegations from compose-development?
+-[x] Remove delegations from compose-development?
 -[x] Dev down command as well.
 -[x] Add instruction to change permissions for exec files or make them executable by default.
 -[x] Change all docker-compose commands to docker compose to reduce dependencies
+-[x] Resolve issues with Vite and hot module reloading
+-[ ] Check with React
 -[ ] Fix `COMPOSE_COMPOSER_VERSION` behavior
--[ ] Resolve issues with Vite and hot module reloading
--[ ] Explore installation via Laravel installer instead of Composer
--[ ] Add React support
 -[ ] Require the env file for the docker compose command
+-[ ] Database
+-[ ] Explore installation via Laravel installer instead of Composer
+-[ ] Maybe the separate containers for composer and artisan are not required. Why did we separate them?
+-[ ] PHP Debugger
+-[ ] Testing
+-[ ] Impact of delegations and caching of volumes in composer-development.yml
+-[ ] Bump npm version
 
 # docker-compose-laravel
 Docker compose workflow for Laravel development using the following services:
@@ -102,6 +108,35 @@ And for persistent containers:
 - `dev-exec redis sh`
 - `dev-exec mailhog sh`
 
+## Compiling Assets
+
+This configuration should be able to compile assets with both [laravel mix](https://laravel-mix.com/) and [vite](https://vitejs.dev/). In order to get started, you first need to add ` --host 0.0.0.0` after the end of your relevant dev command in `package.json`. So for example, with a Laravel project using Vite, you should see:
+
+```json
+"scripts": {
+  "dev": "vite --host 0.0.0.0",
+  "build": "vite build"
+},
+```
+
+Then, run the following commands to install your dependencies and start the dev server:
+
+- `docker compose run --rm npm install`
+- `docker compose run --rm --service-ports npm run dev`
+
+Alternatively you can use the following QOL commands:
+
+- `../dev-run npm i`
+- `../dev-run npm run dev`
+
+After that, you should be able to use `@vite` directives to enable hot-module reloading on your local Laravel application.
+
+Want to build for production? Simply run `docker compose run --rm npm run build`.
+
+Alternatively you can use the following QOL command:
+
+- `../dev-run npm run build`
+
 ## Permissions Issues
 
 If you encounter any issues with filesystem permissions while visiting your application or running a container command, try completing one of the sets of steps below.
@@ -137,25 +172,6 @@ volumes:
 
 While I originally created this template for local development, it's robust enough to be used in basic Laravel application deployments. The biggest recommendation would be to ensure that HTTPS is enabled by making additions to the `nginx/default.conf` file and utilizing something like [Let's Encrypt](https://hub.docker.com/r/linuxserver/letsencrypt) to produce an SSL certificate.
 
-## Compiling Assets
-
-This configuration should be able to compile assets with both [laravel mix](https://laravel-mix.com/) and [vite](https://vitejs.dev/). In order to get started, you first need to add ` --host 0.0.0.0` after the end of your relevant dev command in `package.json`. So for example, with a Laravel project using Vite, you should see:
-
-```json
-"scripts": {
-  "dev": "vite --host 0.0.0.0",
-  "build": "vite build"
-},
-```
-
-Then, run the following commands to install your dependencies and start the dev server:
-
-- `docker compose run --rm npm install`
-- `docker compose run --rm --service-ports npm run dev`
-
-After that, you should be able to use `@vite` directives to enable hot-module reloading on your local Laravel application.
-
-Want to build for production? Simply run `docker compose run --rm npm run build`.
 
 ## MailHog
 
