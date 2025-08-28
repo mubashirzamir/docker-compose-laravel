@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker-compose -f compose-development.yml --env-file .env.development down
+docker compose -f compose-development.yml --env-file .env.development down

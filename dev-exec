@@ -8,4 +8,4 @@ SERVICE=$1
 # All remaining arguments are passed to the container command
 shift
 
-docker-compose -f "$COMPOSE_FILE" exec "$SERVICE" "$@"
+docker compose -f "$COMPOSE_FILE" exec "$SERVICE" "$@"

@@ -3,15 +3,15 @@ This project is based on the [docker-compose-laravel](https://github.com/aschmel
 
 # TODOS
 
--[ ] Remove delegations from compose-development.
+-[ ] Remove delegations from compose-development?
 -[x] Dev down command as well.
 -[x] Add instruction to change permissions for exec files or make them executable by default.
--[ ] Change all docker-compose commands to docker compose to reduce dependencies
+-[x] Change all docker-compose commands to docker compose to reduce dependencies
 -[ ] Fix `COMPOSE_COMPOSER_VERSION` behavior
 -[ ] Resolve issues with Vite and hot module reloading
 -[ ] Explore installation via Laravel installer instead of Composer
 -[ ] Add React support
--[ ] Require the env file for the docker-compose command
+-[ ] Require the env file for the docker compose command
 
 # docker-compose-laravel
 Docker compose workflow for Laravel development using the following services:
@@ -57,7 +57,7 @@ NOTE: that the `COMPOSE_COMPOSER_VERSION` does not currently work.
 
 Next, navigate in your terminal to the directory you cloned this, and spin up the containers for the web server by running:
 
-- `docker-compose -f compose-development.yml --env-file .env.development up -d`
+- `docker compose -f compose-development.yml --env-file .env.development up -d`
 
 Alternatively you can use the provided convenience scripts:
 
@@ -76,17 +76,17 @@ Port mappings:
 
 Three additional containers are included that handle Composer, NPM, and Artisan commands *without* having to have these platforms installed on your local computer. Use the following command examples from your project root, modifying them to fit your particular use case.
 
-- `docker-compose -f ../compose-development.yml run --rm composer update`
-- `docker-compose -f ../compose-development.yml run --rm npm run dev`
-- `docker-compose -f ../compose-development.yml run --rm artisan migrate`
+- `docker compose -f ../compose-development.yml run --rm composer update`
+- `docker compose -f ../compose-development.yml run --rm npm run dev`
+- `docker compose -f ../compose-development.yml run --rm artisan migrate`
 
 And for persistent containers:
 
-- `docker-compose -f ../compose-development.yml exec nginx sh`
-- `docker-compose -f ../compose-development.yml exec php sh`
-- `docker-compose -f ../compose-development.yml exec postgres sh`
-- `docker-compose -f ../compose-development.yml exec redis sh`
-- `docker-compose -f ../compose-development.yml exec mailhog sh`
+- `docker compose -f ../compose-development.yml exec nginx sh`
+- `docker compose -f ../compose-development.yml exec php sh`
+- `docker compose -f ../compose-development.yml exec postgres sh`
+- `docker compose -f ../compose-development.yml exec redis sh`
+- `docker compose -f ../compose-development.yml exec mailhog sh`
 
 Alternatively you can use the following QOL commands:
 
@@ -108,16 +108,16 @@ If you encounter any issues with filesystem permissions while visiting your appl
 
 **If you are using your server or local environment as the root user:**
 
-- Bring any container(s) down with `docker-compose down`
-- Replace any instance of `php.dockerfile` in the docker-compose.yml file with `php.root.dockerfile`
-- Re-build the containers by running `docker-compose -f compose-development.yml --env-file .env-development --no-cache build`
+- Bring any container(s) down with `docker compose down`
+- Replace any instance of `php.dockerfile` in the compose-development.yml file with `php.root.dockerfile`
+- Re-build the containers by running `docker compose -f compose-development.yml --env-file .env-development --no-cache build`
 
 **If you are using your server or local environment as a user that is not root:**
 
-- Bring any container(s) down with `docker-compose down`
+- Bring any container(s) down with `docker compose down`
 - In your terminal, run `export UID=$(id -u)` and then `export GID=$(id -g)`
 - If you see any errors about readonly variables from the above step, you can ignore them and continue
-- Re-build the containers by running `docker-compose build --no-cache`
+- Re-build the containers by running `docker compose build --no-cache`
 
 Then, either bring back up your container network or re-run the command you were trying before, and see if that fixes it.
 
@@ -126,7 +126,7 @@ Then, either bring back up your container network or re-run the command you were
 By default, whenever you bring down the Docker network, your MySQL data will be removed after the containers are destroyed. If you would like to have persistent data that remains after bringing containers down and back up, do the following:
 
 1. Create a `mysql` folder in the project root, alongside the `nginx` and `src` folders.
-2. Under the mysql service in your `docker-compose.yml` file, add the following lines:
+2. Under the mysql service in your `compose-development.yml` file, add the following lines:
 
 ```
 volumes:
@@ -150,15 +150,15 @@ This configuration should be able to compile assets with both [laravel mix](http
 
 Then, run the following commands to install your dependencies and start the dev server:
 
-- `docker-compose run --rm npm install`
-- `docker-compose run --rm --service-ports npm run dev`
+- `docker compose run --rm npm install`
+- `docker compose run --rm --service-ports npm run dev`
 
 After that, you should be able to use `@vite` directives to enable hot-module reloading on your local Laravel application.
 
-Want to build for production? Simply run `docker-compose run --rm npm run build`.
+Want to build for production? Simply run `docker compose run --rm npm run build`.
 
 ## MailHog
 
-The current version of Laravel (9 as of today) uses MailHog as the default application for testing email sending and general SMTP work during local development. Using the provided Docker Hub image, getting an instance set up and ready is simple and straight-forward. The service is included in the `docker-compose.yml` file, and spins up alongside the webserver and database services.
+The current version of Laravel (9 as of today) uses MailHog as the default application for testing email sending and general SMTP work during local development. Using the provided Docker Hub image, getting an instance set up and ready is simple and straight-forward. The service is included in the `compose-development.yml` file, and spins up alongside the webserver and database services.
 
-To see the dashboard and view any emails coming through the system, visit [localhost:8025](http://localhost:8025) after running `docker-compose up -d site`.
+To see the dashboard and view any emails coming through the system, visit [localhost:8025](http://localhost:8025) after running `docker compose -f compose-development.yml --env-file .env.development up -d`.
