@@ -4,8 +4,8 @@ This project is based on the [docker-compose-laravel](https://github.com/aschmel
 # TODOS
 
 -[ ] Remove delegations from compose-development.
--[ ] Dev down command as well.
--[ ] Add instruction to change permissions for exec files or make them executable by default.
+-[x] Dev down command as well.
+-[x] Add instruction to change permissions for exec files or make them executable by default.
 -[ ] Change all docker-compose commands to docker compose to reduce dependencies
 -[ ] Fix `COMPOSE_COMPOSER_VERSION` behavior
 -[ ] Resolve issues with Vite and hot module reloading
@@ -32,10 +32,10 @@ To get started, make sure you have [Docker installed](https://docs.docker.com/de
 After cloning the repository, make the convenience scripts executable by running:
 
 ```bash
-chmod +x dev-exec dev-run dev-up.sh
+chmod +x dev-exec dev-run dev-up.sh dev-down.sh
 ```
 
-This will allow you to use the QOL commands like `./dev-run composer update` and `./dev-exec php sh`.
+This will allow you to use the QOL commands like `./dev-run composer update`, `./dev-exec php sh`, and `./dev-down.sh`.
 
 ### Set Up Image Versions
 
@@ -59,9 +59,10 @@ Next, navigate in your terminal to the directory you cloned this, and spin up th
 
 - `docker-compose -f compose-development.yml --env-file .env.development up -d`
 
-Alternatively you can use the provided convenience script:
+Alternatively you can use the provided convenience scripts:
 
-- `./dev.sh`
+- `./dev-up.sh` - Start the containers
+- `./dev-down.sh` - Stop the containers
 
 After that completes, follow the steps from the [src/README.md](src/README.md) file to get your Laravel project added in (or create a new blank one).
 
