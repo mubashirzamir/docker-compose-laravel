@@ -3,15 +3,15 @@ This project is based on the [docker-compose-laravel](https://github.com/aschmel
 
 # TODOS
 
-- Remove delegations from compose-development.
-- Dev down command as well.
-- Add instruction to change permissions for exec files or make them executable by default.
-- Change all docker-compose commands to docker compose to reduce dependencies
-- Fix `COMPOSE_COMPOSER_VERSION` behavior
-- Resolve issues with Vite and hot module reloading
-- Explore installation via Laravel installer instead of Composer
-- Add React support
-- Require the env file for the docker-compose command
+-[ ] Remove delegations from compose-development.
+-[ ] Dev down command as well.
+-[ ] Add instruction to change permissions for exec files or make them executable by default.
+-[ ] Change all docker-compose commands to docker compose to reduce dependencies
+-[ ] Fix `COMPOSE_COMPOSER_VERSION` behavior
+-[ ] Resolve issues with Vite and hot module reloading
+-[ ] Explore installation via Laravel installer instead of Composer
+-[ ] Add React support
+-[ ] Require the env file for the docker-compose command
 
 # docker-compose-laravel
 Docker compose workflow for Laravel development using the following services:
@@ -25,7 +25,17 @@ Docker compose workflow for Laravel development using the following services:
 
 ### Prerequisites
 
-To get started, make sure you have [Docker installed](https://docs.docker.com/docker-for-mac/install/) on your system, and then clone this repository.
+To get started, make sure you have [Docker installed](https://docs.docker.com/desktop/) on your system, and then clone this repository.
+
+### Make Scripts Executable
+
+After cloning the repository, make the convenience scripts executable by running:
+
+```bash
+chmod +x dev-exec dev-run dev-up.sh
+```
+
+This will allow you to use the QOL commands like `./dev-run composer update` and `./dev-exec php sh`.
 
 ### Set Up Image Versions
 
