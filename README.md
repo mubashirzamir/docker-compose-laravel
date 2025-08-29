@@ -52,19 +52,19 @@ To get started, make sure you have [Docker installed](https://docs.docker.com/de
 After cloning the repository, make the convenience scripts executable by running:
 
 ```bash
-chmod +x dev-exec dev-run dev-up.sh dev-down.sh dev-stop.sh dev-rebuild.sh
+chmod +x wield-exec wield-run forge-up.sh forge-down.sh forge-stop.sh forge-rebuild.sh
 ```
 
-This will allow you to use the QOL commands like `./dev-run composer update`, `./dev-exec php sh`, `./dev-down.sh`, `./dev-stop.sh`, and `./dev-rebuild.sh`.
+This will allow you to use the QOL commands like `./wield-run composer update`, `./wield-exec php sh`, `./forge-down.sh`, `./forge-stop.sh`, and `./forge-rebuild.sh`.
 
 ### When to Use Each Script
 
-- **`./dev-up.sh`** - Start containers with helpful status messages and URLs
-- **`./dev-stop.sh`** - Stop containers without removing them (faster restart)
-- **`./dev-down.sh`** - Stop and remove containers (clean slate)
-- **`./dev-rebuild.sh`** - Rebuild images (use after modifying Dockerfiles)
-- **`./dev-run <service> <command>`** - Run one-off commands with service validation and examples
-- **`./dev-exec <service> <command>`** - Execute commands in running containers with service validation
+- **`./forge-up.sh`** - Start containers with helpful status messages and URLs
+- **`./forge-stop.sh`** - Stop containers without removing them (faster restart)
+- **`./forge-down.sh`** - Stop and remove containers (clean slate)
+- **`./forge-rebuild.sh`** - Rebuild images (use after modifying Dockerfiles)
+- **`./wield-run <service> <command>`** - Run one-off commands with service validation and examples
+- **`./wield-exec <service> <command>`** - Execute commands in running containers with service validation
 
 ### Set Up Image Versions
 
@@ -90,10 +90,10 @@ Next, navigate in your terminal to the directory you cloned this, and spin up th
 
 Alternatively you can use the provided convenience scripts:
 
-- `./dev-up.sh` - Start the containers
-- `./dev-stop.sh` - Stop the containers (preserves them for faster restart)
-- `./dev-down.sh` - Stop and remove the containers
-- `./dev-rebuild.sh` - Rebuild images and start containers (use after Dockerfile changes)
+- `./forge-up.sh` - Start the containers
+- `./forge-stop.sh` - Stop the containers (preserves them for faster restart)
+- `./forge-down.sh` - Stop and remove the containers
+- `./forge-rebuild.sh` - Rebuild images and start containers (use after Dockerfile changes)
 
 After that completes, follow the steps from the [src/README.md](src/README.md) file to get your Laravel project added in (or create a new blank one).
 
@@ -122,18 +122,18 @@ And for persistent containers:
 
 Alternatively you can use the following QOL commands:
 
-- `dev-run composer update`
-- `dev-run laravel new project-name`
-- `dev-run npm run dev`
-- `dev-run artisan migrate`
+- `wield-run composer update`
+- `wield-run laravel new project-name`
+- `wield-run npm run dev`
+- `wield-run artisan migrate`
 
 And for persistent containers:
 
-- `dev-exec nginx sh`
-- `dev-exec php sh`
-- `dev-exec postgres sh`
-- `dev-exec redis sh`
-- `dev-exec mailhog sh`
+- `wield-exec nginx sh`
+- `wield-exec php sh`
+- `wield-exec postgres sh`
+- `wield-exec redis sh`
+- `wield-exec mailhog sh`
 
 ## Compiling Assets
 
@@ -153,8 +153,8 @@ Then, run the following commands to install your dependencies and start the dev 
 
 Alternatively you can use the following QOL commands:
 
-- `../dev-run npm i`
-- `../dev-run npm run dev`
+- `../wield-run npm i`
+- `../wield-run npm run dev`
 
 After that, you should be able to use `@vite` directives to enable hot-module reloading on your local Laravel application.
 
@@ -162,7 +162,7 @@ Want to build for production? Simply run `docker compose run --rm npm run build`
 
 Alternatively you can use the following QOL command:
 
-- `../dev-run npm run build`
+- `../wield-run npm run build`
 
 ## Inertia.js + Vite Setup
 
@@ -206,13 +206,13 @@ export default defineConfig({
 
 **For React:**
 ```bash
-../dev-run npm install @vitejs/plugin-react react react-dom
+../wield-run npm install @vitejs/plugin-react react react-dom
 ```
 
 ### 3. Start Development
 
 ```bash
-../dev-run npm run dev
+../wield-run npm run dev
 ```
 
 Your Inertia.js application should now work with hot module replacement and proper Docker networking!

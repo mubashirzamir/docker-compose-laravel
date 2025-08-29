@@ -7,7 +7,7 @@ if [ $? -eq 0 ]; then
     echo "Containers stopped successfully!"
     echo ""
     echo "Your Laravel development environment has been shut down."
-    echo "To start it again, run: ./dev-up.sh"
+    echo "To start it again, run: ./forge-up.sh"
 else
     echo "Failed to stop containers!"
 fi

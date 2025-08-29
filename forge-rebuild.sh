@@ -6,7 +6,7 @@ docker compose -f compose-development.yml --env-file .env.development build --no
 if [ $? -eq 0 ]; then
     echo "Rebuild successful!"
     echo ""
-    echo "To start containers, run: ./dev-up.sh"
+    echo "To start containers, run: ./forge-up.sh"
 else
     echo "Rebuild failed!"
 fi

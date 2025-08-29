@@ -8,7 +8,7 @@ To get started, **delete the contents of this folder** and then do one of the fo
 
 1. Create a new Laravel project in a temporary directory:
    ```bash
-   ../dev-run laravel new testing
+   ../wield-run laravel new testing
    ```
 
 2. Move all files and folders from the `testing` directory to the current `src` directory:
@@ -22,5 +22,5 @@ To get started, **delete the contents of this folder** and then do one of the fo
 
 **Alternative**: You can also use Composer directly:
 ```bash
-../dev-run composer create-project laravel/laravel .
+../wield-run composer create-project laravel/laravel .
 ```

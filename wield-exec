@@ -20,9 +20,9 @@ if [ -z "$SERVICE" ]; then
   echo "mailhog   - Mail testing"
   echo ""
   echo "Examples:"
-  echo "./dev-exec php sh"
-  echo "./dev-exec postgres psql -U laravel -d app"
-  echo "./dev-exec redis redis-cli"
+  echo "./wield-exec php sh"
+  echo "./wield-exec postgres psql -U laravel -d app"
+  echo "./wield-exec redis redis-cli"
   exit 1
 fi
 

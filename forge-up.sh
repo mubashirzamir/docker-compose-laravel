@@ -13,9 +13,10 @@ if [ $? -eq 0 ]; then
     echo " Redis: localhost:6379"
     echo ""
     echo "You can now use inside the src folder:"
-    echo "  ../dev-run laravel new ."
-    echo "  ../dev-run composer update"
-    echo "  ../dev-run npm install"
+    echo "  ../wield-run laravel new ."
+    echo "  ../wield-run composer update"
+    echo "  ../wield-run npm install"
+    echo "  ../wield-run npm run dev"
 else
     echo "Failed to start containers!"
 fi

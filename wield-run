@@ -19,10 +19,10 @@ if [[ ! "$SERVICE" =~ ^(composer|npm|artisan|laravel)$ ]]; then
   echo "artisan   - Run Laravel Artisan commands"
   echo ""
   echo "Examples (to be run inside src folder):"
-  echo "../dev-run composer update"
-  echo "../dev-run laravel new ."
-  echo "../dev-run npm install"
-  echo "../dev-run artisan migrate"
+  echo "../wield-run composer update"
+  echo "../wield-run laravel new ."
+  echo "../wield-run npm install"
+  echo "../wield-run artisan migrate"
   exit 1
 fi
 
