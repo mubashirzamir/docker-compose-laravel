@@ -5,32 +5,32 @@ This project is based on the [docker-compose-laravel](https://github.com/aschmel
 
 ## Completed
 
--[x] Remove delegations from compose-development
--[x] Dev down command as well.
--[x] Add instruction to change permissions for exec files or make them executable by default.
--[x] Change all docker-compose commands to docker compose to reduce dependencies
--[x] Resolve issues with Vite and hot module reloading
--[x] Explore installation via Laravel installer instead of Composer
--[x] Check with React (Checked with Inertia and React)
--[x] Resolve WSL2 performance issues with Inertia + React by moving project to WSL
+- [x] Remove delegations from compose-development
+- [x] Dev down command as well.
+- [x] Add instruction to change permissions for exec files or make them executable by default.
+- [x] Change all docker-compose commands to docker compose to reduce dependencies
+- [x] Resolve issues with Vite and hot module reloading
+- [x] Explore installation via Laravel installer instead of Composer
+- [x] Check with React (Checked with Inertia and React)
+- [x] Resolve WSL2 performance issues with Inertia + React by moving project to WSL
 
-
-## Pending
+## MISC
+- [] Issues with using laravel installer in the current directory
 
 ### Environment & Configuration
--[ ] Fix `COMPOSE_COMPOSER_VERSION` behavior
--[ ] Make laravel installer version configurable as well `COMPOSE_LARAVEL_INSTALLER_VERSION`
--[ ] Require the env file for the docker compose command. What did I mean by this?
--[ ] Bump npm version
+- [ ] Fix `COMPOSE_COMPOSER_VERSION` behavior
+- [ ] Make laravel installer version configurable as well `COMPOSE_LARAVEL_INSTALLER_VERSION`
+- [ ] Require the env file for the docker compose command. What did I mean by this?
+- [ ] Bump npm version
 
 ### Database & Testing
--[ ] Test if database works
--[ ] Check if testing works
--[ ] PHP Debugger with PHPStorm. How would that work?
+- [ ] Test if database works
+- [ ] Check if testing works
+- [ ] PHP Debugger with PHPStorm. How would that work?
 
 ### Architecture & Optimization
--[ ] Maybe the separate containers for composer, artisan, npm and laravel are not required. Can we consolidate them?
--[ ] Impact of delegations and caching of volumes in composer-development.yml
+- [ ] Maybe the separate containers for composer, artisan, npm and laravel are not required. Can we consolidate them?
+- [ ] Impact of delegations and caching of volumes in composer-development.yml
 
 # docker-compose-laravel
 Docker compose workflow for Laravel development using the following services:
