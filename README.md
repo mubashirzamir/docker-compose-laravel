@@ -12,11 +12,10 @@ This project is based on the [docker-compose-laravel](https://github.com/aschmel
 -[x] Resolve issues with Vite and hot module reloading
 -[x] Explore installation via Laravel installer instead of Composer
 -[x] Check with React (Checked with Inertia and React)
+-[x] Resolve WSL2 performance issues with Inertia + React by moving project to WSL
+
 
 ## Pending
-
-### Performance 
--[ ] Setup is horribly slow with Inertia + React with WSL2 (https://github.com/vitejs/vite/discussions/9155).
 
 ### Environment & Configuration
 -[ ] Fix `COMPOSE_COMPOSER_VERSION` behavior
@@ -257,3 +256,7 @@ While I originally created this template for local development, it's robust enou
 The current version of Laravel (9 as of today) uses MailHog as the default application for testing email sending and general SMTP work during local development. Using the provided Docker Hub image, getting an instance set up and ready is simple and straight-forward. The service is included in the `compose-development.yml` file, and spins up alongside the webserver and database services.
 
 To see the dashboard and view any emails coming through the system, visit [localhost:8025](http://localhost:8025) after running `docker compose -f compose-development.yml --env-file .env.development up -d`.
+
+## WSL2 Performance Optimization
+
+Add information from Vite's docs here.
