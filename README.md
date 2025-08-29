@@ -13,25 +13,29 @@ This project is based on the [docker-compose-laravel](https://github.com/aschmel
 - [x] Explore installation via Laravel installer instead of Composer
 - [x] Check with React (Checked with Inertia and React)
 - [x] Resolve WSL2 performance issues with Inertia + React by moving project to WSL
+- [x] Test if database works
 
 ## MISC
 - [ ] Issues with using laravel installer in the current directory
 - [ ] Make it more convenient to execute scripts without having to worry about relative paths
-
+- [ ] Document when containers need restarting
+ 
 ### Environment & Configuration
 - [ ] Fix `COMPOSE_COMPOSER_VERSION` behavior
 - [ ] Make laravel installer version configurable as well `COMPOSE_LARAVEL_INSTALLER_VERSION`
 - [ ] Require the env file for the docker compose command. What did I mean by this?
 - [ ] Bump npm version
 
-### Database & Testing
-- [ ] Test if database works
+### Testing
 - [ ] Check if testing works
 - [ ] PHP Debugger with PHPStorm. How would that work?
 
 ### Architecture & Optimization
 - [ ] Maybe the separate containers for composer, artisan, npm and laravel are not required. Can we consolidate them?
 - [ ] Impact of delegations and caching of volumes in composer-development.yml
+
+## Dream
+- [ ] Laravel Herd competitor with multiple environment support.
 
 # docker-compose-laravel
 Docker compose workflow for Laravel development using the following services:
@@ -237,17 +241,55 @@ If you encounter any issues with filesystem permissions while visiting your appl
 
 Then, either bring back up your container network or re-run the command you were trying before, and see if that fixes it.
 
-## Persistent MySQL Storage
+## Database Configuration
 
-By default, whenever you bring down the Docker network, your MySQL data will be removed after the containers are destroyed. If you would like to have persistent data that remains after bringing containers down and back up, do the following:
+After setting up your Laravel project, you need to configure it to use the PostgreSQL database. In your Laravel project's `.env` file, use these settings:
 
-1. Create a `mysql` folder in the project root, alongside the `nginx` and `src` folders.
-2. Under the mysql service in your `compose-development.yml` file, add the following lines:
-
+```env
+DB_CONNECTION=pgsql
+DB_HOST=postgres
+DB_PORT=5432
+DB_DATABASE=app
+DB_USERNAME=laravel
+DB_PASSWORD=secret
 ```
-volumes:
-  - ./mysql:/var/lib/mysql
+
+**Important**: The `DB_HOST=postgres` must match the service name in `compose-development.yml`. The PostgreSQL service is named `postgres`, so that's what Laravel should connect to.
+
+---
+
+## Persistent PostgreSQL Storage
+
+Persistent storage for PostgreSQL has already been set up in your project, so your database data will **not** be lost when you bring down the Docker network.
+
+The setup works as follows:
+
+1. A `volumes/postgres` folder exists in the project root.
+2. In your `compose-development.yml` file, the PostgreSQL service includes the volume mapping:
+
+```yaml
+postgres:
+    image: ${COMPOSE_POSTGRES_VERSION:-postgres:latest}
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=laravel
+      - POSTGRES_PASSWORD=secret
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data
+    networks:
+      - app_network
 ```
+
+This ensures that all database files are stored in the `volume/postgres` folder on the host machine, so stopping or removing containers will **not delete your database**.
+
+---
+
+If you want, I can also **add a note about connecting from Laravel inside Docker** so it’s clear why `DB_HOST=postgres` works and avoids “connection refused” errors. Do you want me to add that?
+
 
 ## Usage in Production
 
