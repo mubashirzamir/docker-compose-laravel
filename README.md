@@ -15,7 +15,8 @@ This project is based on the [docker-compose-laravel](https://github.com/aschmel
 - [x] Resolve WSL2 performance issues with Inertia + React by moving project to WSL
 
 ## MISC
-- [] Issues with using laravel installer in the current directory
+- [ ] Issues with using laravel installer in the current directory
+- [ ] Make it more convenient to execute scripts without having to worry about relative paths
 
 ### Environment & Configuration
 - [ ] Fix `COMPOSE_COMPOSER_VERSION` behavior
