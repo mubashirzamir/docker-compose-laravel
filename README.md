@@ -52,15 +52,16 @@ To get started, make sure you have [Docker installed](https://docs.docker.com/de
 After cloning the repository, make the convenience scripts executable by running:
 
 ```bash
-chmod +x dev-exec dev-run dev-up.sh dev-down.sh dev-rebuild.sh
+chmod +x dev-exec dev-run dev-up.sh dev-down.sh dev-stop.sh dev-rebuild.sh
 ```
 
-This will allow you to use the QOL commands like `./dev-run composer update`, `./dev-exec php sh`, `./dev-down.sh`, and `./dev-rebuild.sh`.
+This will allow you to use the QOL commands like `./dev-run composer update`, `./dev-exec php sh`, `./dev-down.sh`, `./dev-stop.sh`, and `./dev-rebuild.sh`.
 
 ### When to Use Each Script
 
 - **`./dev-up.sh`** - Start containers with helpful status messages and URLs
-- **`./dev-down.sh`** - Stop containers with confirmation and restart instructions
+- **`./dev-stop.sh`** - Stop containers without removing them (faster restart)
+- **`./dev-down.sh`** - Stop and remove containers (clean slate)
 - **`./dev-rebuild.sh`** - Rebuild images (use after modifying Dockerfiles)
 - **`./dev-run <service> <command>`** - Run one-off commands with service validation and examples
 - **`./dev-exec <service> <command>`** - Execute commands in running containers with service validation
@@ -90,7 +91,8 @@ Next, navigate in your terminal to the directory you cloned this, and spin up th
 Alternatively you can use the provided convenience scripts:
 
 - `./dev-up.sh` - Start the containers
-- `./dev-down.sh` - Stop the containers
+- `./dev-stop.sh` - Stop the containers (preserves them for faster restart)
+- `./dev-down.sh` - Stop and remove the containers
 - `./dev-rebuild.sh` - Rebuild images and start containers (use after Dockerfile changes)
 
 After that completes, follow the steps from the [src/README.md](src/README.md) file to get your Laravel project added in (or create a new blank one).
