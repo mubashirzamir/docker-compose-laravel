@@ -8,4 +8,23 @@ SERVICE=$1
 # All remaining arguments are passed to the container command
 shift
 
+# Check if service is provided
+if [ -z "$SERVICE" ]; then
+  echo "Error: No service specified"
+  echo ""
+  echo "Available services:"
+  echo "nginx     - Web server"
+  echo "php       - PHP-FPM"
+  echo "postgres  - PostgreSQL database"
+  echo "redis     - Redis cache"
+  echo "mailhog   - Mail testing"
+  echo ""
+  echo "Examples:"
+  echo "./dev-exec php sh"
+  echo "./dev-exec postgres psql -U laravel -d app"
+  echo "./dev-exec redis redis-cli"
+  exit 1
+fi
+
+echo "Executing command in $SERVICE container: $@"
 docker compose -f "$COMPOSE_FILE" exec "$SERVICE" "$@"

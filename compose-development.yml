@@ -79,6 +79,21 @@ services:
     networks:
       - app_network
 
+  laravel:
+    build:
+      context: ./dockerfiles/development
+      dockerfile: php.dockerfile
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - php
+    entrypoint: [ 'laravel' ]
+    networks:
+      - app_network
+
   npm:
     image: ${COMPOSE_NODE_VERSION:-node:22-alpine}
     volumes:

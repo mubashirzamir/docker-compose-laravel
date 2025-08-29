@@ -3,21 +3,35 @@ This project is based on the [docker-compose-laravel](https://github.com/aschmel
 
 # TODOS
 
--[x] Remove delegations from compose-development?
+## Completed
+
+-[x] Remove delegations from compose-development
 -[x] Dev down command as well.
 -[x] Add instruction to change permissions for exec files or make them executable by default.
 -[x] Change all docker-compose commands to docker compose to reduce dependencies
 -[x] Resolve issues with Vite and hot module reloading
--[ ] Check with React
+-[x] Explore installation via Laravel installer instead of Composer
+-[x] Check with React (Checked with Inertia and React)
+
+## Pending
+
+### Performance 
+-[ ] Setup is horribly slow with Inertia + React with WSL2 (https://github.com/vitejs/vite/discussions/9155).
+
+### Environment & Configuration
 -[ ] Fix `COMPOSE_COMPOSER_VERSION` behavior
--[ ] Require the env file for the docker compose command
--[ ] Database
--[ ] Explore installation via Laravel installer instead of Composer
--[ ] Maybe the separate containers for composer and artisan are not required. Why did we separate them?
--[ ] PHP Debugger
--[ ] Testing
--[ ] Impact of delegations and caching of volumes in composer-development.yml
+-[ ] Make laravel installer version configurable as well `COMPOSE_LARAVEL_INSTALLER_VERSION`
+-[ ] Require the env file for the docker compose command. What did I mean by this?
 -[ ] Bump npm version
+
+### Database & Testing
+-[ ] Test if database works
+-[ ] Check if testing works
+-[ ] PHP Debugger with PHPStorm. How would that work?
+
+### Architecture & Optimization
+-[ ] Maybe the separate containers for composer, artisan, npm and laravel are not required. Can we consolidate them?
+-[ ] Impact of delegations and caching of volumes in composer-development.yml
 
 # docker-compose-laravel
 Docker compose workflow for Laravel development using the following services:
@@ -38,10 +52,18 @@ To get started, make sure you have [Docker installed](https://docs.docker.com/de
 After cloning the repository, make the convenience scripts executable by running:
 
 ```bash
-chmod +x dev-exec dev-run dev-up.sh dev-down.sh
+chmod +x dev-exec dev-run dev-up.sh dev-down.sh dev-rebuild.sh
 ```
 
-This will allow you to use the QOL commands like `./dev-run composer update`, `./dev-exec php sh`, and `./dev-down.sh`.
+This will allow you to use the QOL commands like `./dev-run composer update`, `./dev-exec php sh`, `./dev-down.sh`, and `./dev-rebuild.sh`.
+
+### When to Use Each Script
+
+- **`./dev-up.sh`** - Start containers with helpful status messages and URLs
+- **`./dev-down.sh`** - Stop containers with confirmation and restart instructions
+- **`./dev-rebuild.sh`** - Rebuild images (use after modifying Dockerfiles)
+- **`./dev-run <service> <command>`** - Run one-off commands with service validation and examples
+- **`./dev-exec <service> <command>`** - Execute commands in running containers with service validation
 
 ### Set Up Image Versions
 
@@ -69,6 +91,7 @@ Alternatively you can use the provided convenience scripts:
 
 - `./dev-up.sh` - Start the containers
 - `./dev-down.sh` - Stop the containers
+- `./dev-rebuild.sh` - Rebuild images and start containers (use after Dockerfile changes)
 
 After that completes, follow the steps from the [src/README.md](src/README.md) file to get your Laravel project added in (or create a new blank one).
 
@@ -80,9 +103,10 @@ Port mappings:
 - **redis** - `:6379`
 - **mailhog** - `:8025` 
 
-Three additional containers are included that handle Composer, NPM, and Artisan commands *without* having to have these platforms installed on your local computer. Use the following command examples from your project root, modifying them to fit your particular use case.
+Four additional containers are included that handle Composer, Laravel Installer, NPM, and Artisan commands *without* having to have these platforms installed on your local computer. Use the following command examples from your project root, modifying them to fit your particular use case.
 
 - `docker compose -f ../compose-development.yml run --rm composer update`
+- `docker compose -f ../compose-development.yml run --rm laravel new project-name`
 - `docker compose -f ../compose-development.yml run --rm npm run dev`
 - `docker compose -f ../compose-development.yml run --rm artisan migrate`
 
@@ -97,6 +121,7 @@ And for persistent containers:
 Alternatively you can use the following QOL commands:
 
 - `dev-run composer update`
+- `dev-run laravel new project-name`
 - `dev-run npm run dev`
 - `dev-run artisan migrate`
 
@@ -136,6 +161,60 @@ Want to build for production? Simply run `docker compose run --rm npm run build`
 Alternatively you can use the following QOL command:
 
 - `../dev-run npm run build`
+
+## Inertia.js + Vite Setup
+
+This setup also works with Inertia.js for building modern single-page applications with Laravel. Here's how to configure it:
+
+### 1. Configure Vite for Inertia
+
+Create or update your `vite.config.js` file in your Laravel project root:
+
+```javascript
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import react from '@vitejs/plugin-react'; // For React
+// import vue from '@vitejs/plugin-vue'; // For Vue
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: ['resources/css/app.css', 'resources/js/app.js'],
+            refresh: true,
+        }),
+        react(), // For React
+        // vue(), // For Vue
+    ],
+    server: {
+        host: '0.0.0.0',    // Bind to all interfaces for Docker networking
+        port: 5173,          // Vite dev server port
+        hmr: {
+            host: 'localhost' // Browser connects here for hot module replacement
+        },
+        watch: {
+            usePolling: true  // Required for file watching in Docker containers
+        },
+    },
+});
+```
+
+**Note:** The `usePolling: true` setting is required when running Vite in Docker containers or WSL2. This is due to WSL2 limitations where file system watching doesn't work when files are edited by Windows applications. While this leads to higher CPU utilization, it ensures reliable file watching across different environments.
+
+### 2. Install Required Dependencies
+
+**For React:**
+```bash
+../dev-run npm install @vitejs/plugin-react react react-dom
+```
+
+### 3. Start Development
+
+```bash
+../dev-run npm run dev
+```
+
+Your Inertia.js application should now work with hot module replacement and proper Docker networking!
+
 
 ## Permissions Issues
 

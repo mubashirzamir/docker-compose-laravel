@@ -8,10 +8,23 @@ SERVICE=$1
 # All remaining arguments are passed to the container command
 shift
 
-# Only allow specific services to be run: composer, npm, artisan
-if [[ ! "$SERVICE" =~ ^(composer|npm|artisan)$ ]]; then
-  echo "Error: Invalid service '$SERVICE'. Allowed services are: composer, npm, artisan."
+# Only allow specific services to be run: composer, npm, artisan, laravel
+if [[ ! "$SERVICE" =~ ^(composer|npm|artisan|laravel)$ ]]; then
+  echo "Error: Invalid service '$SERVICE'"
+  echo ""
+  echo "Allowed services are:"
+  echo "composer  - Run Composer commands"
+  echo "laravel   - Run Laravel installer commands"
+  echo "npm       - Run NPM commands"
+  echo "artisan   - Run Laravel Artisan commands"
+  echo ""
+  echo "Examples (to be run inside src folder):"
+  echo "../dev-run composer update"
+  echo "../dev-run laravel new ."
+  echo "../dev-run npm install"
+  echo "../dev-run artisan migrate"
   exit 1
 fi
 
+echo "Running $SERVICE command: $@"
 docker compose -f "$COMPOSE_FILE" run --rm --service-ports "$SERVICE" "$@"
