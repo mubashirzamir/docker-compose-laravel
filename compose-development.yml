@@ -8,7 +8,7 @@ services:
       context: ./dockerfiles/development
       dockerfile: nginx.dockerfile
       args:
-        - NGINX_VERSION=${COMPOSE_NGINX_VERSION:-nginx:latest}
+        - NGINX_VERSION=${FORGE_NGINX_VERSION:-nginx:latest}
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     ports:
@@ -24,7 +24,7 @@ services:
       - app_network
 
   postgres:
-    image: ${COMPOSE_POSTGRES_VERSION:-postgres:latest}
+    image: ${FORGE_POSTGRES_VERSION:-postgres:latest}
     restart: unless-stopped
     tty: true
     ports:
@@ -43,9 +43,9 @@ services:
       context: ./dockerfiles/development
       dockerfile: php.dockerfile
       args:
-        - PHP_VERSION=${COMPOSE_PHP_VERSION:-php-8.3-fpm-alpine}
-        - PHP_EXTENSIONS=${COMPOSE_PHP_EXTENSIONS:-pdo pdo_pgsql}
-        - COMPOSER_VERSION=${COMPOSE_COMPOSER_VERSION:-composer:latest}
+        - PHP_VERSION=${FORGE_PHP_VERSION:-php-8.3-fpm-alpine}
+        - PHP_EXTENSIONS=${FORGE_PHP_EXTENSIONS:-pdo pdo_pgsql}
+        - COMPOSER_VERSION=${FORGE_COMPOSER_VERSION:-composer:latest}
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     ports:
@@ -56,7 +56,7 @@ services:
       - app_network
 
   redis:
-    image: ${COMPOSE_REDIS_VERSION:-redis:8.0.1-alpine}
+    image: ${FORGE_REDIS_VERSION:-redis:8.0.1-alpine}
     restart: unless-stopped
     ports:
       - "6379:6379"
@@ -68,7 +68,7 @@ services:
       context: ./dockerfiles/development
       dockerfile: php.dockerfile
       args:
-        - COMPOSER_VERSION=${COMPOSE_COMPOSER_VERSION:-composer:latest}
+        - COMPOSER_VERSION=${FORGE_COMPOSER_VERSION:-composer:latest}
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     volumes:
@@ -95,7 +95,7 @@ services:
       - app_network
 
   npm:
-    image: ${COMPOSE_NODE_VERSION:-node:22-alpine}
+    image: ${FORGE_NODE_VERSION:-node:22-alpine}
     volumes:
       - ./src:/var/www/html
     ports:
@@ -124,7 +124,7 @@ services:
       - app_network
 
   mailhog:
-    image: ${COMPOSE_MAILHOG_VERSION:-mailhog/mailhog:latest}
+    image: ${FORGE_MAILHOG_VERSION:-mailhog/mailhog:latest}
     ports:
       - "1025:1025"
       - "8025:8025"

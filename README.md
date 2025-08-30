@@ -20,15 +20,15 @@ To get started, make sure you have [Docker installed](https://docs.docker.com/de
 Before building and running the containers, you may want to check the `.env.development` file in the root of this repository to ensure that the versions of the images you are using are compatible with your project or needs. The file contains the following variables:
 
 ```env
-COMPOSE_NGINX_VERSION=nginx:1.28.0-alpine
-COMPOSE_POSTGRES_VERSION=postgres:17.5
-COMPOSE_PHP_VERSION=php:8.3-fpm-alpine
-COMPOSE_PHP_EXTENSIONS=pdo pdo_pgsql
-COMPOSE_COMPOSER_VERSION=composer:2.8.9
-COMPOSE_REDIS_VERSION=redis:8.0.1-alpine
-COMPOSE_NODE_VERSION=node:22.16.0
-COMPOSE_MAILHOG_VERSION=mailhog/mailhog
-COMPOSE_NETWORKS_NAME=app_network
+FORGE_NGINX_VERSION=nginx:1.28.0-alpine
+FORGE_POSTGRES_VERSION=postgres:17.5
+FORGE_PHP_VERSION=php:8.3-fpm-alpine
+FORGE_PHP_EXTENSIONS=pdo pdo_pgsql
+FORGE_COMPOSER_VERSION=composer:2.8.9
+FORGE_REDIS_VERSION=redis:8.0.1-alpine
+FORGE_NODE_VERSION=node:22.16.0
+FORGE_MAILHOG_VERSION=mailhog/mailhog
+FORGE_NETWORKS_NAME=app_network
 ```
 
 ### Default Port Mappings:

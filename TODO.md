@@ -11,18 +11,18 @@
 - [x] Check with React (Checked with Inertia and React)
 - [x] Resolve WSL2 performance issues with Inertia + React by moving project to WSL
 - [x] Test if database works
+- [x] Maybe different prefix than `COMPOSE` for .env.development and versioning for container images (Changed to `FORGE_` prefix)
 
 ## MISC
 - [ ] Issues with using laravel installer in the current directory
 - [ ] Make it more convenient to execute scripts without having to worry about relative paths
 - [ ] Document when containers need restarting
-- [ ] Maybe different prefix than `COMPOSE` for .env.development and versioning for container images
 - [ ] Improve QOL command feedback
 - [ ] Consolidate into one readme
 
 ### Environment & Configuration
-- [ ] Fix `COMPOSE_COMPOSER_VERSION` behavior
-- [ ] Make laravel installer version configurable as well `COMPOSE_LARAVEL_INSTALLER_VERSION`
+- [ ] Fix `FORGE_COMPOSER_VERSION` behavior
+- [ ] Make laravel installer version configurable as well `FORGE_LARAVEL_INSTALLER_VERSION`
 - [ ] Require the env file for the docker compose command. What did I mean by this?
 - [ ] Bump npm version
 
