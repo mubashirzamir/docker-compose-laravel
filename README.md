@@ -74,7 +74,37 @@ Other relevant scripts:
 
 ### Setting up Laravel Project
 
-After that completes, follow the steps from the [src/README.md](src/README.md) file to get your Laravel project added in (or create a new blank one).
+After that completes:
+
+   ```bash
+   mkdir src
+   cd src
+   ```
+
+Laravel project can be created using either the Laravel installer or Composer:
+
+### A. LARAVEL INSTALLER
+
+**Note**: Due to issues with the Laravel installer in the current directory, use this workaround:
+
+1. Create a new Laravel project in a temporary directory:
+   ```bash
+   ../wield run laravel new testing
+   ```
+
+2. Move all files and folders from the `testing` directory to the current `src` directory:
+   ```bash
+   mv testing/* .
+   mv testing/.* . 2>/dev/null || true  # Move hidden files (like .env, .gitignore)
+   rmdir testing   
+   ```
+
+### B. COMPOSER
+
+**Alternative**: You can also use Composer directly:
+```bash
+../wield run composer create-project laravel/laravel .
+```
 
 Four additional containers are included that handle Composer, Laravel Installer, NPM, and Artisan commands *without* having to have these platforms installed on your local computer. Use the following command examples from your project root, modifying them to fit your particular use case.
 
@@ -258,3 +288,7 @@ Add information from Vite's docs here.
 ## Usage in Production
 
 While I originally created this template for local development, it's robust enough to be used in basic Laravel application deployments. The biggest recommendation would be to ensure that HTTPS is enabled by making additions to the `nginx/default.conf` file and utilizing something like [Let's Encrypt](https://hub.docker.com/r/linuxserver/letsencrypt) to produce an SSL certificate.
+
+## This is where your Laravel app goes
+
+To get started, **delete the contents of this folder** and then do one of the following:

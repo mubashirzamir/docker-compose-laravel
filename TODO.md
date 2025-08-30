@@ -12,6 +12,7 @@
 - [x] Resolve WSL2 performance issues with Inertia + React by moving project to WSL
 - [x] Test if database works
 - [x] Maybe different prefix than `COMPOSE` for .env.development and versioning for container images (Changed to `FORGE_` prefix)
+- [x] Consolidate into one readme
 
 ### Testing
 - [ ] Check if testing works
@@ -23,7 +24,6 @@
 - [ ] Make it more convenient to execute scripts without having to worry about relative paths
 - [ ] Document when containers need restarting
 - [ ] Improve QOL command feedback
-- [ ] Consolidate into one readme
 
 ### Environment & Configuration
 - [ ] Fix `FORGE_COMPOSER_VERSION` behavior
