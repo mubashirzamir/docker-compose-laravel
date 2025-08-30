@@ -17,7 +17,7 @@
 - [x] PHP Debugger with PHPStorm. How would that work?
 
 ## In Progress
-- [ ] Add docs on how I made testing and debugging work.
+- [ ] Add docs on how I made testing and debugging work (Basically used the docker-compose file option for php interpreter).
 
 ## MISC
 - [ ] Make it so the forge and wield commands know where compose development is so they can be run from anywhere. 
