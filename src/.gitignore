@@ -1,6 +1,0 @@
-# Ignore everything in src
-/*
-
-# But not README.md and .gitignore
-!/README.md
-!/.gitignore

@@ -52,6 +52,12 @@ show_help() {
     echo "  ./forge stop"
     echo "  ./forge down"
     echo "  ./forge rebuild"
+    echo ""
+    echo "Backward compatibility:"
+    echo "  ./forge-up     (same as: ./forge up)"
+    echo "  ./forge-stop   (same as: ./forge stop)"
+    echo "  ./forge-down   (same as: ./forge down)"
+    echo "  ./forge-rebuild (same as: ./forge rebuild)"
 }
 
 # Function to check if command script exists

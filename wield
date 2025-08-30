@@ -39,6 +39,7 @@ show_help() {
     echo ""
     echo "Usage:"
     echo "  ./wield <command> [service] [options...]"
+    echo "  ../wield <command> [service] [options...] (when run from src folder)"
     echo ""
     echo "Commands:"
     echo "  run <service> [command...]  - Run one-off commands with service validation"
@@ -57,12 +58,12 @@ show_help() {
     echo "  mailhog   - Mail testing"
     echo ""
     echo "Examples:"
-    echo "  ./wield run composer update"
-    echo "  ./wield run laravel new project-name"
-    echo "  ./wield run npm run dev"
-    echo "  ./wield run artisan migrate"
-    echo "  ./wield exec nginx sh"
-    echo "  ./wield exec php sh"
+    echo "  ../wield run composer update"
+    echo "  ../wield run laravel new project-name"
+    echo "  ../wield run npm run dev"
+    echo "  ../wield run artisan migrate"
+    echo "  ../wield exec nginx sh"
+    echo "  ../wield exec php sh"
 }
 
 # Function to check if command script exists
@@ -117,9 +118,10 @@ validate_service() {
 
 # Main script logic
 main() {
-    # Check if we're in the right directory
-    if [[ ! -f "compose-development.yml" ]]; then
-        print_error "compose-development.yml not found. Please run this script from the project root."
+    # Check if we're in the right directory (look in script's directory, not current directory)
+    if [[ ! -f "$SCRIPT_DIR/compose-development.yml" ]]; then
+        print_error "compose-development.yml not found in project root ($SCRIPT_DIR)."
+        print_error "Please ensure you're running this from a valid project directory."
         exit 1
     fi
     
@@ -141,7 +143,7 @@ main() {
             fi
             validate_service "$2"
             check_command "run"
-            execute_command "run" "$@"
+            execute_command "run" "${@:2}"
             ;;
         "exec")
             if [[ -z "$2" ]]; then
@@ -152,7 +154,7 @@ main() {
             fi
             validate_service "$2"
             check_command "exec"
-            execute_command "exec" "$@"
+            execute_command "exec" "${@:2}"
             ;;
         "help"|"-h"|"--help")
             show_help
