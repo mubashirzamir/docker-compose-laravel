@@ -13,10 +13,11 @@
 - [x] Test if database works
 - [x] Maybe different prefix than `COMPOSE` for .env.development and versioning for container images (Changed to `FORGE_` prefix)
 - [x] Consolidate into one readme
+- [x] Check if testing works
+- [x] PHP Debugger with PHPStorm. How would that work?
 
-### Testing
-- [ ] Check if testing works
-- [ ] PHP Debugger with PHPStorm. How would that work?
+## In Progress
+- [ ] Add docs on how I made testing and debugging work.
 
 ## MISC
 - [ ] Make it so the forge and wield commands know where compose development is so they can be run from anywhere. 
@@ -25,6 +26,7 @@
 - [ ] Make it more convenient to execute scripts without having to worry about relative paths
 - [ ] Document when containers need restarting
 - [ ] Improve QOL command feedback
+- [ ] Review dockerfiles, especially the part where xdebug is installed.
 
 ### Environment & Configuration
 - [ ] Fix `FORGE_COMPOSER_VERSION` behavior

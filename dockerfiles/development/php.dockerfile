@@ -1,6 +1,6 @@
 ARG PHP_VERSION=php:8.3-fpm-alpine
 
-FROM ${PHP_VERSION}
+FROM php:8.3-fpm-alpine
 
 ARG COMPOSER_VERSION="composer:2.6"
 ARG PHP_EXTENSIONS="pdo pdo_pgsql"
@@ -22,8 +22,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 # MacOS staff group's gid is 20, so is the dialout group in alpine linux. We're not using it, let's just remove it.
 RUN delgroup dialout
 
-RUN addgroup -g ${GID} --system laravel
-RUN adduser -G laravel --system -D -s /bin/sh -u ${UID} laravel
+RUN addgroup --gid ${GID} --system laravel
+RUN adduser -DS -G laravel -s /bin/sh -u ${UID} laravel
 
 # TODO: How to make laravel installer version configurable.
 # Install Laravel installer as laravel user
@@ -46,6 +46,10 @@ RUN mkdir -p /usr/src/php/ext/redis \
     && curl -L https://github.com/phpredis/phpredis/archive/5.3.4.tar.gz | tar xvz -C /usr/src/php/ext/redis --strip 1 \
     && echo 'redis' >> /usr/src/php-available-exts \
     && docker-php-ext-install redis
+
+# Conduct impact analysis
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+RUN install-php-extensions xdebug @composer
 
 USER laravel
 
