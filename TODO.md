@@ -15,20 +15,20 @@
 
 ## MISC
 - [ ] Issues with using laravel installer in the current directory
-- [ ] Make it more convenient to execute scripts without having to worry about relative paths
+- [ ] Consolidate into one readme
 - [ ] Document when containers need restarting
 - [ ] Improve QOL command feedback
-- [ ] Consolidate into one readme
+- [ ] Make it more convenient to execute scripts without having to worry about relative paths
+
+### Testing
+- [ ] Check if testing works
+- [ ] PHP Debugger with PHPStorm. How would that work?
 
 ### Environment & Configuration
 - [ ] Fix `FORGE_COMPOSER_VERSION` behavior
 - [ ] Make laravel installer version configurable as well `FORGE_LARAVEL_INSTALLER_VERSION`
 - [ ] Require the env file for the docker compose command. What did I mean by this?
 - [ ] Bump npm version
-
-### Testing
-- [ ] Check if testing works
-- [ ] PHP Debugger with PHPStorm. How would that work?
 
 ### Architecture & Optimization
 - [ ] Maybe the separate containers for composer, artisan, npm and laravel are not required. Can we consolidate them?
