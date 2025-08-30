@@ -44,19 +44,19 @@ FORGE_NETWORKS_NAME=app_network
 After cloning the repository, make the convenience scripts executable by running:
 
 ```bash
-chmod +x forge-up.sh forge-stop.sh forge-down.sh forge-rebuild.sh wield-run wield-exec 
+chmod +x forge wield
 ```
 
 This will allow you to use the QOL commands:
 
 ### When to Use Each Script
 
-- **`./forge-up.sh`** - Start containers with helpful status messages and URLs
-- **`./forge-stop.sh`** - Stop containers
-- **`./forge-down.sh`** - Stop and remove containers
-- **`./forge-rebuild.sh`** - Rebuild images (use after modifying Dockerfiles)
-- **`../wield-run <service> <command>`** - Run one-off commands with service validation and examples
-- **`../wield-exec <service> <command>`** - Execute commands in running containers with service validation
+- **`./forge up`** - Start containers with helpful status messages and URLs
+- **`./forge stop`** - Stop containers
+- **`./forge down`** - Stop and remove containers
+- **`./forge rebuild`** - Rebuild images (use after modifying Dockerfiles)
+- **`../wield run <service> <command>`** - Run one-off commands with service validation and examples
+- **`../wield exec <service> <command>`** - Execute commands in running containers with service validation
 
 Next, navigate in your terminal to the directory you cloned this, and spin up the containers for the web server by running:
 
@@ -64,13 +64,13 @@ Next, navigate in your terminal to the directory you cloned this, and spin up th
 
 Alternatively you can use the provided convenience script:
 
-- `./forge-up.sh` - Start the containers
+- `./forge up` - Start the containers
 
 Other relevant scripts:
 
-- `./forge-stop.sh` - Stop the containers (preserves them for faster restart)
-- `./forge-down.sh` - Stop and remove the containers
-- `./forge-rebuild.sh` - Rebuild images and start containers (use after Dockerfile changes)
+- `./forge stop` - Stop the containers (preserves them for faster restart)
+- `./forge down` - Stop and remove the containers
+- `./forge rebuild` - Rebuild images and start containers (use after Dockerfile changes)
 
 ### Setting up Laravel Project
 
@@ -93,18 +93,18 @@ And for persistent containers:
 
 Alternatively you can use the following QOL commands:
 
-- `../wield-run composer update`
-- `../wield-run laravel new project-name`
-- `../wield-run npm run dev`
-- `../wield-run artisan migrate`
+- `../wield run composer update`
+- `../wield run laravel new project-name`
+- `../wield run npm run dev`
+- `../wield run artisan migrate`
 
 And for persistent containers:
 
-- `../wield-exec nginx sh`
-- `../wield-exec php sh`
-- `../wield-exec postgres sh`
-- `../wield-exec redis sh`
-- `../wield-exec mailhog sh`
+- `../wield exec nginx sh`
+- `../wield exec php sh`
+- `../wield exec postgres sh`
+- `../wield exec redis sh`
+- `../wield exec mailhog sh`
 
 ## Compiling Assets
 
@@ -124,8 +124,8 @@ Then, run the following commands to install your dependencies and start the dev 
 
 Alternatively you can use the following QOL commands:
 
-- `../wield-run npm i`
-- `../wield-run npm run dev`
+- `../wield run npm i`
+- `../wield run npm run dev`
 
 After that, you should be able to use `@vite` directives to enable hot-module reloading on your local Laravel application.
 
@@ -133,7 +133,7 @@ Want to build for production? Simply run `docker compose run --rm npm run build`
 
 Alternatively you can use the following QOL command:
 
-- `../wield-run npm run build`
+- `../wield run npm run build`
 
 ## Inertia.js + Vite Setup
 
@@ -176,7 +176,7 @@ export default defineConfig({
 ### 2. Start Development
 
 ```bash
-../wield-run npm run dev
+../wield run npm run dev
 ```
 
 Your Inertia.js application should now work with hot module replacement and proper Docker networking!

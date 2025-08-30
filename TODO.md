@@ -13,16 +13,17 @@
 - [x] Test if database works
 - [x] Maybe different prefix than `COMPOSE` for .env.development and versioning for container images (Changed to `FORGE_` prefix)
 
-## MISC
-- [ ] Issues with using laravel installer in the current directory
-- [ ] Consolidate into one readme
-- [ ] Document when containers need restarting
-- [ ] Improve QOL command feedback
-- [ ] Make it more convenient to execute scripts without having to worry about relative paths
-
 ### Testing
 - [ ] Check if testing works
 - [ ] PHP Debugger with PHPStorm. How would that work?
+
+## MISC
+- [ ] Review the new forge and wield commands
+- [ ] Issues with using laravel installer in the current directory
+- [ ] Make it more convenient to execute scripts without having to worry about relative paths
+- [ ] Document when containers need restarting
+- [ ] Improve QOL command feedback
+- [ ] Consolidate into one readme
 
 ### Environment & Configuration
 - [ ] Fix `FORGE_COMPOSER_VERSION` behavior

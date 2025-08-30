@@ -1,0 +1,170 @@
+#!/bin/bash
+
+# Wield - Docker Compose Laravel Development Environment Command Runner
+# Handles: run, exec
+
+set -e
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Script directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+COMMANDS_DIR="$SCRIPT_DIR/scripts"
+
+# Function to print colored output
+print_status() {
+    echo -e "${BLUE}[WIELD]${NC} $1"
+}
+
+print_success() {
+    echo -e "${GREEN}[WIELD]${NC} $1"
+}
+
+print_warning() {
+    echo -e "${YELLOW}[WIELD]${NC} $1"
+}
+
+print_error() {
+    echo -e "${RED}[WIELD]${NC} $1"
+}
+
+# Function to show help
+show_help() {
+    echo "Wield - Docker Compose Laravel Development Environment Command Runner"
+    echo ""
+    echo "Usage:"
+    echo "  ./wield <command> [service] [options...]"
+    echo ""
+    echo "Commands:"
+    echo "  run <service> [command...]  - Run one-off commands with service validation"
+    echo "  exec <service> [command...] - Execute commands in running containers"
+    echo "  help                        - Show this help message"
+    echo ""
+    echo "Available Services:"
+    echo "  composer  - PHP dependency management"
+    echo "  laravel   - Laravel installer"
+    echo "  npm       - Node.js package management"
+    echo "  artisan   - Laravel Artisan CLI"
+    echo "  nginx     - Web server"
+    echo "  php       - PHP-FPM"
+    echo "  postgres  - PostgreSQL database"
+    echo "  redis     - Redis cache"
+    echo "  mailhog   - Mail testing"
+    echo ""
+    echo "Examples:"
+    echo "  ./wield run composer update"
+    echo "  ./wield run laravel new project-name"
+    echo "  ./wield run npm run dev"
+    echo "  ./wield run artisan migrate"
+    echo "  ./wield exec nginx sh"
+    echo "  ./wield exec php sh"
+}
+
+# Function to check if command script exists
+check_command() {
+    local command_script="$COMMANDS_DIR/wield-$1"
+    if [[ ! -f "$command_script" ]]; then
+        print_error "Unknown command: $1"
+        echo ""
+        show_help
+        exit 1
+    fi
+}
+
+# Function to execute command
+execute_command() {
+    local command="$1"
+    shift  # Remove the command from arguments
+    local command_script="$COMMANDS_DIR/wield-$command"
+    
+    print_status "Executing: wield $command $*"
+    
+    if [[ -f "$command_script" ]]; then
+        # Make sure the script is executable
+        chmod +x "$command_script"
+        # Execute the command script with remaining arguments
+        "$command_script" "$@"
+    else
+        print_error "Command script not found: $command_script"
+        exit 1
+    fi
+}
+
+# Function to validate service
+validate_service() {
+    local service="$1"
+    local valid_services=("composer" "laravel" "npm" "artisan" "nginx" "php" "postgres" "redis" "mailhog")
+    
+    for valid_service in "${valid_services[@]}"; do
+        if [[ "$service" == "$valid_service" ]]; then
+            return 0
+        fi
+    done
+    
+    print_error "Invalid service: $service"
+    echo ""
+    echo "Valid services:"
+    printf "  %s\n" "${valid_services[@]}"
+    echo ""
+    show_help
+    exit 1
+}
+
+# Main script logic
+main() {
+    # Check if we're in the right directory
+    if [[ ! -f "compose-development.yml" ]]; then
+        print_error "compose-development.yml not found. Please run this script from the project root."
+        exit 1
+    fi
+    
+    # Check if commands directory exists
+    if [[ ! -d "$COMMANDS_DIR" ]]; then
+        print_error "Commands directory not found: $COMMANDS_DIR"
+        print_error "Please ensure the scripts/commands directory exists with the required command scripts."
+        exit 1
+    fi
+    
+    # Handle command
+    case "${1:-help}" in
+        "run")
+            if [[ -z "$2" ]]; then
+                print_error "Service name required for 'run' command"
+                echo ""
+                show_help
+                exit 1
+            fi
+            validate_service "$2"
+            check_command "run"
+            execute_command "run" "$@"
+            ;;
+        "exec")
+            if [[ -z "$2" ]]; then
+                print_error "Service name required for 'exec' command"
+                echo ""
+                show_help
+                exit 1
+            fi
+            validate_service "$2"
+            check_command "exec"
+            execute_command "exec" "$@"
+            ;;
+        "help"|"-h"|"--help")
+            show_help
+            ;;
+        *)
+            print_error "Unknown command: $1"
+            echo ""
+            show_help
+            exit 1
+            ;;
+    esac
+}
+
+# Run main function with all arguments
+main "$@"
