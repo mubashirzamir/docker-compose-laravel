@@ -189,8 +189,8 @@ export default defineConfig({
         // vue(), // For Vue
     ],
     server: {
-        host: '0.0.0.0',    // Bind to all interfaces for Docker networking
-        port: 5173,          // Vite dev server port
+        host: '0.0.0.0',      // Bind to all interfaces for Docker networking
+        port: 5173,           // Vite dev server port
         hmr: {
             host: 'localhost' // Browser connects here for hot module replacement
         },

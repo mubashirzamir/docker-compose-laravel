@@ -19,6 +19,7 @@
 - [ ] PHP Debugger with PHPStorm. How would that work?
 
 ## MISC
+- [ ] Make it so the forge and wield commands know where compose development is so they can be run from anywhere. 
 - [ ] Review the new forge and wield commands
 - [ ] Issues with using laravel installer in the current directory
 - [ ] Make it more convenient to execute scripts without having to worry about relative paths
