@@ -15,24 +15,24 @@
 - [x] Consolidate into one readme
 - [x] Check if testing works
 - [x] PHP Debugger with PHPStorm. How would that work?
+- [x] Add docs on how I made testing and debugging work (Basically used the docker-compose file option for php interpreter).
+- [x] Make laravel installer version configurable as well `FORGE_LARAVEL_INSTALLER_VERSION`
 
 ## In Progress
-- [ ] Add docs on how I made testing and debugging work (Basically used the docker-compose file option for php interpreter).
+- [ ] Document when containers need restarting
 
 ## MISC
 - [ ] Make it so the forge and wield commands know where compose development is so they can be run from anywhere. 
 - [ ] Review the new forge and wield commands
 - [ ] Issues with using laravel installer in the current directory
 - [ ] Make it more convenient to execute scripts without having to worry about relative paths
-- [ ] Document when containers need restarting
 - [ ] Improve QOL command feedback
 - [ ] Review dockerfiles, especially the part where xdebug is installed.
 
 ### Environment & Configuration
 - [ ] Fix `FORGE_COMPOSER_VERSION` behavior
-- [ ] Make laravel installer version configurable as well `FORGE_LARAVEL_INSTALLER_VERSION`
-- [ ] Require the env file for the docker compose command. What did I mean by this?
 - [ ] Bump npm version
+- [ ] Require the env file for the docker compose command. What did I mean by this?
 
 ### Architecture & Optimization
 - [ ] Maybe the separate containers for composer, artisan, npm and laravel are not required. Can we consolidate them?

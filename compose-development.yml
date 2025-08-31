@@ -46,6 +46,7 @@ services:
         - PHP_VERSION=${FORGE_PHP_VERSION:-php-8.3-fpm-alpine}
         - PHP_EXTENSIONS=${FORGE_PHP_EXTENSIONS:-pdo pdo_pgsql}
         - COMPOSER_VERSION=${FORGE_COMPOSER_VERSION:-composer:latest}
+        - LARAVEL_INSTALLER_VERSION=${FORGE_LARAVEL_INSTALLER_VERSION:-^5.0}
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     ports:
@@ -84,6 +85,7 @@ services:
       context: ./dockerfiles/development
       dockerfile: php.dockerfile
       args:
+        - LARAVEL_INSTALLER_VERSION=${FORGE_LARAVEL_INSTALLER_VERSION:-^5.0}
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     volumes:

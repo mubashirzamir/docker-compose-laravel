@@ -1,22 +1,24 @@
 ARG PHP_VERSION=php:8.3-fpm-alpine
 
-FROM php:8.3-fpm-alpine
+FROM ${PHP_VERSION}
 
 ARG COMPOSER_VERSION="composer:2.6"
 ARG PHP_EXTENSIONS="pdo pdo_pgsql"
 ARG UID
 ARG GID
+ARG LARAVEL_INSTALLER_VERSION="^5.0"
 
 ENV COMPOSER_VERSION=${COMPOSER_VERSION}
 ENV PHP_EXTENSIONS=${PHP_EXTENSIONS}
 ENV UID=${UID}
 ENV GID=${GID}
+ENV LARAVEL_INSTALLER_VERSION=${LARAVEL_INSTALLER_VERSION}
 
 RUN mkdir -p /var/www/html
 
 WORKDIR /var/www/html
 
-# TODO: Need to figure out how to make composer installation dynamic
+# TODO: Use the COMPOSER_VERSION ARG instead of hardcoded version
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # MacOS staff group's gid is 20, so is the dialout group in alpine linux. We're not using it, let's just remove it.
@@ -25,10 +27,8 @@ RUN delgroup dialout
 RUN addgroup --gid ${GID} --system laravel
 RUN adduser -DS -G laravel -s /bin/sh -u ${UID} laravel
 
-# TODO: How to make laravel installer version configurable.
-# Install Laravel installer as laravel user
 USER laravel
-RUN composer global require laravel/installer
+RUN composer global require laravel/installer:${LARAVEL_INSTALLER_VERSION}
 USER root
 RUN ln -s /home/laravel/.composer/vendor/bin/laravel /usr/local/bin/laravel
 

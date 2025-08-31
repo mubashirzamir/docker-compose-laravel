@@ -1,8 +1,12 @@
 # Acknowledgements
-This project is based on the [docker-compose-laravel](https://github.com/aschmelyun/docker-compose-laravel) repository by aschmelyun, with improvements and customizations for my personal development workflow.
+
+This project is based on the [docker-compose-laravel](https://github.com/aschmelyun/docker-compose-laravel) repository
+by aschmelyun, with improvements and customizations for my personal development workflow.
 
 # docker-compose-laravel
+
 Docker compose workflow for Laravel development using the following services:
+
 - Nginx
 - PHP-FPM
 - PostgreSQL
@@ -13,11 +17,14 @@ Docker compose workflow for Laravel development using the following services:
 
 ### Prerequisites
 
-To get started, make sure you have [Docker installed](https://docs.docker.com/desktop/) on your system, and then clone this repository.
+To get started, make sure you have [Docker installed](https://docs.docker.com/desktop/) on your system, and then clone
+this repository.
 
 ### Set Up Image Versions
 
-Before building and running the containers, you may want to check the `.env.development` file in the root of this repository to ensure that the versions of the images you are using are compatible with your project or needs. The file contains the following variables:
+Before building and running the containers, you may want to check the `.env.development` file in the root of this
+repository to ensure that the versions of the images you are using are compatible with your project or needs. The file
+contains the following variables:
 
 ```env
 FORGE_NGINX_VERSION=nginx:1.28.0-alpine
@@ -37,7 +44,7 @@ FORGE_NETWORKS_NAME=app_network
 - **php** - `:9000`
 - **postgresql** - `:5432`
 - **redis** - `:6379`
-- **mailhog** - `:8025` 
+- **mailhog** - `:8025`
 
 ### Make Scripts Executable
 
@@ -58,7 +65,8 @@ This will allow you to use the QOL commands:
 - **`../wield run <service> <command>`** - Run one-off commands with service validation and examples
 - **`../wield exec <service> <command>`** - Execute commands in running containers with service validation
 
-Next, navigate in your terminal to the directory you cloned this, and spin up the containers for the web server by running:
+Next, navigate in your terminal to the directory you cloned this, and spin up the containers for the web server by
+running:
 
 - `docker compose -f compose-development.yml --env-file .env.development up -d`
 
@@ -102,11 +110,14 @@ Laravel project can be created using either the Laravel installer or Composer:
 ### B. COMPOSER
 
 **Alternative**: You can also use Composer directly:
+
 ```bash
 ../wield run composer create-project laravel/laravel .
 ```
 
-Four additional containers are included that handle Composer, Laravel Installer, NPM, and Artisan commands *without* having to have these platforms installed on your local computer. Use the following command examples from your project root, modifying them to fit your particular use case.
+Four additional containers are included that handle Composer, Laravel Installer, NPM, and Artisan commands *without*
+having to have these platforms installed on your local computer. Use the following command examples from your project
+root, modifying them to fit your particular use case.
 
 - `docker compose -f ../compose-development.yml run --rm composer update`
 - `docker compose -f ../compose-development.yml run --rm laravel new project-name`
@@ -138,13 +149,17 @@ And for persistent containers:
 
 ## Compiling Assets
 
-This configuration should be able to compile assets with both [laravel mix](https://laravel-mix.com/) and [vite](https://vitejs.dev/). In order to get started, you first need to add ` --host 0.0.0.0` after the end of your relevant dev command in `package.json`. So for example, with a Laravel project using Vite, you should see:
+This configuration should be able to compile assets with both [laravel mix](https://laravel-mix.com/)
+and [vite](https://vitejs.dev/). In order to get started, you first need to add ` --host 0.0.0.0` after the end of your
+relevant dev command in `package.json`. So for example, with a Laravel project using Vite, you should see:
 
 ```json
-"scripts": {
-  "dev": "vite --host 0.0.0.0",
-  "build": "vite build"
-},
+{
+   "scripts": {
+      "dev": "vite --host 0.0.0.0",
+      "build": "vite build"
+   }
+}
 ```
 
 Then, run the following commands to install your dependencies and start the dev server:
@@ -157,7 +172,8 @@ Alternatively you can use the following QOL commands:
 - `../wield run npm i`
 - `../wield run npm run dev`
 
-After that, you should be able to use `@vite` directives to enable hot-module reloading on your local Laravel application.
+After that, you should be able to use `@vite` directives to enable hot-module reloading on your local Laravel
+application.
 
 Want to build for production? Simply run `docker compose run --rm npm run build`.
 
@@ -167,14 +183,15 @@ Alternatively you can use the following QOL command:
 
 ## Inertia.js + Vite Setup
 
-This setup also works with Inertia.js for building modern single-page applications with Laravel. Here's how to configure it:
+This setup also works with Inertia.js for building modern single-page applications with Laravel. Here's how to configure
+it:
 
 ### 1. Configure Vite for Inertia
 
 Create or update your `vite.config.js` file in your Laravel project root:
 
 ```javascript
-import { defineConfig } from 'vite';
+import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
 import react from '@vitejs/plugin-react'; // For React
 // import vue from '@vitejs/plugin-vue'; // For Vue
@@ -201,7 +218,9 @@ export default defineConfig({
 });
 ```
 
-**Note:** The `usePolling: true` setting is required when running Vite in Docker containers or WSL2. This is due to WSL2 limitations where file system watching doesn't work when files are edited by Windows applications. While this leads to higher CPU utilization, it ensures reliable file watching across different environments.
+**Note:** The `usePolling: true` setting is required when running Vite in Docker containers or WSL2. This is due to WSL2
+limitations where file system watching doesn't work when files are edited by Windows applications. While this leads to
+higher CPU utilization, it ensures reliable file watching across different environments.
 
 ### 2. Start Development
 
@@ -213,7 +232,8 @@ Your Inertia.js application should now work with hot module replacement and prop
 
 ## Database Configuration
 
-After setting up your Laravel project, you need to configure it to use the PostgreSQL database. In your Laravel project's `.env` file, use these settings:
+After setting up your Laravel project, you need to configure it to use the PostgreSQL database. In your Laravel
+project's `.env` file, use these settings:
 
 ```env
 DB_CONNECTION=pgsql
@@ -224,13 +244,15 @@ DB_USERNAME=laravel
 DB_PASSWORD=secret
 ```
 
-**Important**: The `DB_HOST=postgres` must match the service name in `compose-development.yml`. The PostgreSQL service is named `postgres`, so that's what Laravel should connect to.
+**Important**: The `DB_HOST=postgres` must match the service name in `compose-development.yml`. The PostgreSQL service
+is named `postgres`, so that's what Laravel should connect to.
 
 ---
 
 ## Persistent PostgreSQL Storage
 
-Persistent storage for PostgreSQL has already been set up in your project, so your database data will **not** be lost when you bring down the Docker network.
+Persistent storage for PostgreSQL has already been set up in your project, so your database data will **not** be lost
+when you bring down the Docker network.
 
 The setup works as follows:
 
@@ -239,32 +261,55 @@ The setup works as follows:
 
 ```yaml
 postgres:
-    image: ${COMPOSE_POSTGRES_VERSION:-postgres:latest}
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "${POSTGRES_PORT:-5432}:5432"
-    environment:
-      - POSTGRES_DB=app
-      - POSTGRES_USER=laravel
-      - POSTGRES_PASSWORD=secret
-    volumes:
-      - ./volumes/postgres:/var/lib/postgresql/data
-    networks:
-      - app_network
+  image: ${COMPOSE_POSTGRES_VERSION:-postgres:latest}
+  restart: unless-stopped
+  tty: true
+  ports:
+    - "${POSTGRES_PORT:-5432}:5432"
+  environment:
+    - POSTGRES_DB=app
+    - POSTGRES_USER=laravel
+    - POSTGRES_PASSWORD=secret
+  volumes:
+    - ./volumes/postgres:/var/lib/postgresql/data
+  networks:
+    - app_network
 ```
 
-This ensures that all database files are stored in the `volume/postgres` folder on the host machine, so stopping or removing containers will **not delete your database**.
+This ensures that all database files are stored in the `volume/postgres` folder on the host machine, so stopping or
+removing containers will **not delete your database**.
+
+## Testing and Debugging in PHPStorm
+
+To set up testing and debugging in PHPStorm, follow these steps:
+
+1. **Set Up PHP Interpreter**:
+    - Go to `File > Settings > Languages & Frameworks > PHP`.
+    - Click the `...` button next to the CLI Interpreter dropdown.
+    - Click the `+` button and select `From Docker, Vagrant, VM, Remote...`.
+    - Choose `Docker Compose`.
+    - Select your Docker server and the `compose-development.yml` file.
+    - Set the service to `php`.
+    - Click `OK` to save.
+
+2. **Set Up PHPUnit**:
+    - Go to `File > Settings > Languages & Frameworks > PHP > Test Frameworks`.
+    - Click the `+` button and select `PHPUnit by Remote Interpreter`.
+    - Choose the interpreter you just created.
+    - Select `Path to ` and provide the path `/var/www/html/vendor/bin/phpunit`.
+    - Click `OK` to save.
 
 ## Permissions Issues
 
-If you encounter any issues with filesystem permissions while visiting your application or running a container command, try completing one of the sets of steps below.
+If you encounter any issues with filesystem permissions while visiting your application or running a container command,
+try completing one of the sets of steps below.
 
 **If you are using your server or local environment as the root user:**
 
 - Bring any container(s) down with `docker compose down`
 - Replace any instance of `php.dockerfile` in the compose-development.yml file with `php.root.dockerfile`
-- Re-build the containers by running `docker compose -f compose-development.yml --env-file .env-development --no-cache build`
+- Re-build the containers by running
+  `docker compose -f compose-development.yml --env-file .env-development --no-cache build`
 
 **If you are using your server or local environment as a user that is not root:**
 
@@ -273,22 +318,30 @@ If you encounter any issues with filesystem permissions while visiting your appl
 - If you see any errors about readonly variables from the above step, you can ignore them and continue
 - Re-build the containers by running `docker compose build --no-cache`
 
-Then, either bring back up your container network or re-run the command you were trying before, and see if that fixes it.
-
-## MailHog
-
-The current version of Laravel (9 as of today) uses MailHog as the default application for testing email sending and general SMTP work during local development. Using the provided Docker Hub image, getting an instance set up and ready is simple and straight-forward. The service is included in the `compose-development.yml` file, and spins up alongside the webserver and database services.
-
-To see the dashboard and view any emails coming through the system, visit [localhost:8025](http://localhost:8025) after running `docker compose -f compose-development.yml --env-file .env.development up -d`.
+Then, either bring back up your container network or re-run the command you were trying before, and see if that fixes
+it.
 
 ## WSL2 Performance Optimization
 
 Add information from Vite's docs here.
 
+## aschmelyun start
+---
+## MailHog
+
+The current version of Laravel (9 as of today) uses MailHog as the default application for testing email sending and
+general SMTP work during local development. Using the provided Docker Hub image, getting an instance set up and ready is
+simple and straight-forward. The service is included in the `compose-development.yml` file, and spins up alongside the
+webserver and database services.
+
+To see the dashboard and view any emails coming through the system, visit [localhost:8025](http://localhost:8025) after
+running `docker compose -f compose-development.yml --env-file .env.development up -d`.
+
 ## Usage in Production
 
-While I originally created this template for local development, it's robust enough to be used in basic Laravel application deployments. The biggest recommendation would be to ensure that HTTPS is enabled by making additions to the `nginx/default.conf` file and utilizing something like [Let's Encrypt](https://hub.docker.com/r/linuxserver/letsencrypt) to produce an SSL certificate.
+While I originally created this template for local development, it's robust enough to be used in basic Laravel
+application deployments. The biggest recommendation would be to ensure that HTTPS is enabled by making additions to the
+`nginx/default.conf` file and utilizing something like [Let's Encrypt](https://hub.docker.com/r/linuxserver/letsencrypt)
+to produce an SSL certificate.
 
-## This is where your Laravel app goes
-
-To get started, **delete the contents of this folder** and then do one of the following:
+## aschmelyun end
