@@ -22,16 +22,18 @@
 - [ ] Document when containers need restarting
 
 ## MISC
-- [ ] Make it so the forge and wield commands know where compose development is so they can be run from anywhere. 
-- [ ] Review the new forge and wield commands
 - [ ] Issues with using laravel installer in the current directory
+
+## Forge and Wield
+- [ ] Make it so the forge and wield commands know where compose development is so they can be run from anywhere.
+- [ ] Review the new forge and wield commands
 - [ ] Make it more convenient to execute scripts without having to worry about relative paths
 - [ ] Improve QOL command feedback
-- [ ] Review dockerfiles, especially the part where xdebug is installed.
 
 ### Environment & Configuration
 - [ ] Fix `FORGE_COMPOSER_VERSION` behavior
 - [ ] Bump npm version
+- [ ] Review dockerfiles, especially the part where xdebug is installed
 - [ ] Require the env file for the docker compose command. What did I mean by this?
 
 ### Architecture & Optimization
@@ -39,4 +41,5 @@
 - [ ] Impact of delegations and caching of volumes in composer-development.yml
 
 ## Dream
+- [ ] CI/CD support
 - [ ] Laravel Herd competitor with multiple environment support.
