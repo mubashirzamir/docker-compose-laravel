@@ -91,7 +91,7 @@ After that completes:
 
 Laravel project can be created using either the Laravel installer or Composer:
 
-### A. LARAVEL INSTALLER
+### A. Laravel Installer
 
 **Note**: Due to issues with the Laravel installer in the current directory, use this workaround:
 
@@ -107,13 +107,15 @@ Laravel project can be created using either the Laravel installer or Composer:
    rmdir testing   
    ```
 
-### B. COMPOSER
+### B. Composer
 
 **Alternative**: You can also use Composer directly:
 
 ```bash
 ../wield run composer create-project laravel/laravel .
 ```
+
+### Using the Containers
 
 Four additional containers are included that handle Composer, Laravel Installer, NPM, and Artisan commands *without*
 having to have these platforms installed on your local computer. Use the following command examples from your project
@@ -299,6 +301,13 @@ To set up testing and debugging in PHPStorm, follow these steps:
     - Select `Path to ` and provide the path `/var/www/html/vendor/bin/phpunit`.
     - Click `OK` to save.
 
+## WSL2 Performance Optimization
+
+Add information from Vite's docs here.
+
+## aschmelyun start
+---
+
 ## Permissions Issues
 
 If you encounter any issues with filesystem permissions while visiting your application or running a container command,
@@ -321,12 +330,6 @@ try completing one of the sets of steps below.
 Then, either bring back up your container network or re-run the command you were trying before, and see if that fixes
 it.
 
-## WSL2 Performance Optimization
-
-Add information from Vite's docs here.
-
-## aschmelyun start
----
 ## MailHog
 
 The current version of Laravel (9 as of today) uses MailHog as the default application for testing email sending and
