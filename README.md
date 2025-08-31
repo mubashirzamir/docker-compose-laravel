@@ -1,11 +1,6 @@
-# Acknowledgements
-
-This project is based on the [docker-compose-laravel](https://github.com/aschmelyun/docker-compose-laravel) repository
-by aschmelyun, with improvements and customizations for my personal development workflow.
-
 # docker-compose-laravel
 
-Docker compose workflow for Laravel development using the following services:
+Zero dependency docker compose workflow for Laravel development using the following services:
 
 - Nginx
 - PHP-FPM
@@ -13,12 +8,12 @@ Docker compose workflow for Laravel development using the following services:
 - Redis
 - MailHog
 
-## Usage
-
-### Prerequisites
+## Prerequisites
 
 To get started, make sure you have [Docker installed](https://docs.docker.com/desktop/) on your system, and then clone
 this repository.
+
+## Usage
 
 ### Set Up Image Versions
 
@@ -46,7 +41,7 @@ FORGE_NETWORKS_NAME=app_network
 - **redis** - `:6379`
 - **mailhog** - `:8025`
 
-### Make Scripts Executable
+### Make Helper Scripts Executable
 
 After cloning the repository, make the convenience scripts executable by running:
 
@@ -58,27 +53,18 @@ This will allow you to use the QOL commands:
 
 ### When to Use Each Script
 
-- **`./forge up`** - Start containers with helpful status messages and URLs
-- **`./forge stop`** - Stop containers
-- **`./forge down`** - Stop and remove containers
-- **`./forge rebuild`** - Rebuild images (use after modifying Dockerfiles)
-- **`../wield run <service> <command>`** - Run one-off commands with service validation and examples
-- **`../wield exec <service> <command>`** - Execute commands in running containers with service validation
+| Script                                  | Docker Command                                                                                       | Description                                      |
+|-----------------------------------------|------------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| **`./forge up`**                        | `docker compose -f compose-development.yml --env-file .env.development up -d`                        | Start containers                                 |
+| **`./forge stop`**                      | `docker compose -f compose-development.yml --env-file .env.development stop`                         | Stop containers                                  |
+| **`./forge down`**                      | `docker compose -f compose-development.yml --env-file .env.development down`                         | Stop and remove containers                       |
+| **`./forge rebuild`**                   | `docker compose -f compose-development.yml --env-file .env.development build --no-cache`             | Rebuild images (use after modifying Dockerfiles) |
+| **`../wield run <service> <command>`**  | `docker compose -f compose-development.yml --env-file .env.development run --rm <service> <command>` | Run one-off commands                             |
+| **`../wield exec <service> <command>`** | `docker compose -f compose-development.yml --env-file .env.development exec <service> <command>`     | Execute commands in running containers           |
 
-Next, navigate in your terminal to the directory you cloned this, and spin up the containers for the web server by
-running:
-
-- `docker compose -f compose-development.yml --env-file .env.development up -d`
-
-Alternatively you can use the provided convenience script:
+Spin up the containers for the web server by running:
 
 - `./forge up` - Start the containers
-
-Other relevant scripts:
-
-- `./forge stop` - Stop the containers (preserves them for faster restart)
-- `./forge down` - Stop and remove the containers
-- `./forge rebuild` - Rebuild images and start containers (use after Dockerfile changes)
 
 ### Setting up Laravel Project
 
@@ -118,36 +104,27 @@ Laravel project can be created using either the Laravel installer or Composer:
 ### Using the Containers
 
 Four additional containers are included that handle Composer, Laravel Installer, NPM, and Artisan commands *without*
-having to have these platforms installed on your local computer. Use the following command examples from your project
-root, modifying them to fit your particular use case.
+having to have these platforms installed on your local computer. Use the following command examples from your laravel
+project root, modifying them to fit your particular use case.
 
-- `docker compose -f ../compose-development.yml run --rm composer update`
-- `docker compose -f ../compose-development.yml run --rm laravel new project-name`
-- `docker compose -f ../compose-development.yml run --rm npm run dev`
-- `docker compose -f ../compose-development.yml run --rm artisan migrate`
+#### One-off Commands
 
-And for persistent containers:
+| Script                                  | Docker Command                                                                   | Description                  |
+|-----------------------------------------|----------------------------------------------------------------------------------|------------------------------|
+| `../wield run composer update`          | `docker compose -f ../compose-development.yml run --rm composer update`          | Update Composer dependencies |
+| `../wield run laravel new project-name` | `docker compose -f ../compose-development.yml run --rm laravel new project-name` | Create new Laravel project   |
+| `../wield run npm run dev`              | `docker compose -f ../compose-development.yml run --rm npm run dev`              | Run NPM dev server           |
+| `../wield run artisan migrate`          | `docker compose -f ../compose-development.yml run --rm artisan migrate`          | Run Artisan migrate          |
 
-- `docker compose -f ../compose-development.yml exec nginx sh`
-- `docker compose -f ../compose-development.yml exec php sh`
-- `docker compose -f ../compose-development.yml exec postgres sh`
-- `docker compose -f ../compose-development.yml exec redis sh`
-- `docker compose -f ../compose-development.yml exec mailhog sh`
+#### Interactive Shell Access
 
-Alternatively you can use the following QOL commands:
-
-- `../wield run composer update`
-- `../wield run laravel new project-name`
-- `../wield run npm run dev`
-- `../wield run artisan migrate`
-
-And for persistent containers:
-
-- `../wield exec nginx sh`
-- `../wield exec php sh`
-- `../wield exec postgres sh`
-- `../wield exec redis sh`
-- `../wield exec mailhog sh`
+| Script                      | Docker Command                                                  | Service    |
+|-----------------------------|-----------------------------------------------------------------|------------|
+| `../wield exec nginx sh`    | `docker compose -f ../compose-development.yml exec nginx sh`    | Nginx      |
+| `../wield exec php sh`      | `docker compose -f ../compose-development.yml exec php sh`      | PHP        |
+| `../wield exec postgres sh` | `docker compose -f ../compose-development.yml exec postgres sh` | PostgreSQL |
+| `../wield exec redis sh`    | `docker compose -f ../compose-development.yml exec redis sh`    | Redis      |
+| `../wield exec mailhog sh`  | `docker compose -f ../compose-development.yml exec mailhog sh`  | MailHog    |
 
 ## Compiling Assets
 
@@ -157,38 +134,30 @@ relevant dev command in `package.json`. So for example, with a Laravel project u
 
 ```json
 {
-   "scripts": {
-      "dev": "vite --host 0.0.0.0",
-      "build": "vite build"
-   }
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build"
+  }
 }
 ```
 
 Then, run the following commands to install your dependencies and start the dev server:
 
-- `docker compose run --rm npm install`
-- `docker compose run --rm --service-ports npm run dev`
-
-Alternatively you can use the following QOL commands:
-
-- `../wield run npm i`
-- `../wield run npm run dev`
+| Script                       | Docker Command                                        | Description              |
+|------------------------------|-------------------------------------------------------|--------------------------|
+| `../wield run npm i`         | `docker compose run --rm npm install`                 | Install NPM dependencies |
+| `../wield run npm run dev`   | `docker compose run --rm --service-ports npm run dev` | Start NPM dev server     |
+| `../wield run npm run build` | `docker compose run --rm npm run build`               | Build for production     |
 
 After that, you should be able to use `@vite` directives to enable hot-module reloading on your local Laravel
 application.
 
-Want to build for production? Simply run `docker compose run --rm npm run build`.
-
-Alternatively you can use the following QOL command:
-
-- `../wield run npm run build`
-
-## Inertia.js + Vite Setup
+### Inertia.js + Vite Setup
 
 This setup also works with Inertia.js for building modern single-page applications with Laravel. Here's how to configure
 it:
 
-### 1. Configure Vite for Inertia
+#### 1. Configure Vite for Inertia
 
 Create or update your `vite.config.js` file in your Laravel project root:
 
@@ -224,7 +193,7 @@ export default defineConfig({
 limitations where file system watching doesn't work when files are edited by Windows applications. While this leads to
 higher CPU utilization, it ensures reliable file watching across different environments.
 
-### 2. Start Development
+#### 2. Start Development
 
 ```bash
 ../wield run npm run dev
@@ -232,7 +201,7 @@ higher CPU utilization, it ensures reliable file watching across different envir
 
 Your Inertia.js application should now work with hot module replacement and proper Docker networking!
 
-## Database Configuration
+### Database Configuration
 
 After setting up your Laravel project, you need to configure it to use the PostgreSQL database. In your Laravel
 project's `.env` file, use these settings:
@@ -251,7 +220,7 @@ is named `postgres`, so that's what Laravel should connect to.
 
 ---
 
-## Persistent PostgreSQL Storage
+### Persistent PostgreSQL Storage
 
 Persistent storage for PostgreSQL has already been set up in your project, so your database data will **not** be lost
 when you bring down the Docker network.
@@ -281,7 +250,7 @@ postgres:
 This ensures that all database files are stored in the `volume/postgres` folder on the host machine, so stopping or
 removing containers will **not delete your database**.
 
-## Testing and Debugging in PHPStorm
+### Testing and Debugging in PHPStorm
 
 To set up testing and debugging in PHPStorm, follow these steps:
 
@@ -301,9 +270,14 @@ To set up testing and debugging in PHPStorm, follow these steps:
     - Select `Path to ` and provide the path `/var/www/html/vendor/bin/phpunit`.
     - Click `OK` to save.
 
-## WSL2 Performance Optimization
+### WSL2 Performance Optimization
 
 Add information from Vite's docs here.
+
+## Acknowledgements
+
+This project is based on the [docker-compose-laravel](https://github.com/aschmelyun/docker-compose-laravel) repository
+by aschmelyun, with improvements and customizations for my personal development workflow.
 
 ## aschmelyun start
 ---
@@ -348,3 +322,4 @@ application deployments. The biggest recommendation would be to ensure that HTTP
 to produce an SSL certificate.
 
 ## aschmelyun end
+
